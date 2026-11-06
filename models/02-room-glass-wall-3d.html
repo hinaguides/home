@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Room Glass Wall 3D</title>
+<link rel="stylesheet" href="../shared/base.css">
+</head>
+<body>
+<main>
+<h1>One room opening onto the courtyard — 3D</h1>
+<p class="lede">The courtyard wall in 3 parts: tilting top windows (hot air out), folding glass doors (walk out, cool air in), and the gallery roof (shade).</p>
+<h2 class="sr-only">Simple 3D model of one room opening onto the courtyard: small tilting windows at the top, folding glass doors at the bottom, and the gallery roof shading the glass, with air flowing in low and out high.</h2>
+<div id="wrap" style="width:100%;height:420px;border-radius:12px;overflow:hidden;background:var(--surface-1)"></div>
+<p style="font-size:13px;color:var(--text-secondary);margin:8px 0 0">Drag to rotate, scroll to zoom. Blue dots are cool air coming in, orange is warm air going out.</p>
+</main>
+<script type="module">
+import * as THREE from 'https://esm.sh/three@0.160.0';
+import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+const wrap=document.getElementById('wrap'),H=420;
+const scene=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(42,wrap.clientWidth/H,0.5,500);cam.position.set(30,16,24);
+const r=new THREE.WebGLRenderer({antialias:true,alpha:true});r.setPixelRatio(Math.min(devicePixelRatio,2));r.setSize(wrap.clientWidth,H);wrap.appendChild(r.domElement);
+const ctl=new OrbitControls(cam,r.domElement);ctl.target.set(7,4,-2);ctl.enableDamping=true;ctl.maxPolarAngle=Math.PI/2.05;ctl.update();
+scene.add(new THREE.HemisphereLight(0xffffff,0x888877,1.1));const d=new THREE.DirectionalLight(0xffffff,1.1);d.position.set(20,30,25);scene.add(d);
+// box(x1,x2,y1,y2,z1,z2,color,opacity) — units in feet, y is up
+function box(x1,x2,y1,y2,z1,z2,color,op=1){const m=new THREE.Mesh(new THREE.BoxGeometry(x2-x1,y2-y1,z2-z1),new THREE.MeshLambertMaterial({color,transparent:op<1,opacity:op,depthWrite:op>=1}));m.position.set((x1+x2)/2,(y1+y2)/2,(z1+z2)/2);scene.add(m);return m;}
+box(-1,15,-0.3,0,-14,4,0xE4E1D6);        // room + gallery floor
+box(-1,15,-0.3,-0.05,4,18,0xC0DD97);     // courtyard
+box(-0.6,0,0,10.5,-14,0,0xD3D1C7);       // side wall
+box(-0.6,14,0,10.5,-14.6,-14,0xD3D1C7);  // back wall
+box(-1,15,10.5,11.3,0,4.5,0xB4B2A9);     // gallery roof / overhang
+box(-0.6,0,0,10.5,0,0.3,0x888780);box(14,14.6,0,10.5,0,0.3,0x888780);
+box(-0.6,0.4,0,10.5,4,4.6,0xB4B2A9);box(13.6,14.6,0,10.5,4,4.6,0xB4B2A9); // gallery columns
+box(0,14,7.3,7.6,0,0.3,0x888780);box(0,14,10.2,10.5,0,0.3,0x888780);       // transom + head
+const glass=0x85B7EB;
+for(let i=0;i<3;i++){const w=14/3,g=new THREE.Group();g.position.set(i*w+w/2,7.6,0.15);g.rotation.x=-0.35;const p=new THREE.Mesh(new THREE.BoxGeometry(w-0.4,2.5,0.1),new THREE.MeshLambertMaterial({color:glass,transparent:true,opacity:.45,depthWrite:false}));p.position.y=1.25;g.add(p);scene.add(g);} // hopper vents
+box(0,2.5,0,7.3,0.1,0.2,glass,.45);box(11.5,14,0,7.3,0.1,0.2,glass,.45); // fixed panels
+box(2.5,2.6,0,7.3,0,0.3,0x888780);box(11.4,11.5,0,7.3,0,0.3,0x888780);
+for(let i=0;i<4;i++){const l=new THREE.Mesh(new THREE.BoxGeometry(2.2,7.2,0.08),new THREE.MeshLambertMaterial({color:glass,transparent:true,opacity:.5,depthWrite:false}));l.position.set(3.4,3.65,0.9+i*0.15);l.rotation.y=Math.PI/2+(i%2?0.35:-0.35);scene.add(l);} // folded door leaves
+box(0.2,0.8,0,7.2,-0.6,-0.3,0xED93B1,.7);box(13.2,13.8,0,7.2,-0.6,-0.3,0xED93B1,.7); // curtains
+const t=new THREE.Mesh(new THREE.SphereGeometry(2.2,16,12),new THREE.MeshLambertMaterial({color:0x97C459}));t.position.set(7,5,12);scene.add(t);box(6.7,7.3,0,3.5,11.7,12.3,0x888780);
+const cv=new THREE.CatmullRomCurve3([[7,1.5,14],[7,1.5,6],[7,1.5,1],[7,2,-4],[7,6,-7],[7,9.3,-3],[7,9.6,0.5],[7,10,3],[7,10.2,5.5],[7,14,7]].map(a=>new THREE.Vector3(...a)));
+const blue=new THREE.Color(0x378ADD),coral=new THREE.Color(0xD85A30),parts=[];
+for(let i=0;i<22;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(0.28,8,8),new THREE.MeshBasicMaterial({color:0x378ADD}));scene.add(m);parts.push({m,o:i/22});}
+function label(text,x,y,z){const c=document.createElement('canvas');c.width=512;c.height=72;const k=c.getContext('2d');k.fillStyle='rgba(255,255,255,.93)';k.beginPath();k.roundRect(4,6,504,60,30);k.fill();k.fillStyle='#2C2C2A';k.font='500 30px sans-serif';k.textAlign='center';k.textBaseline='middle';k.fillText(text,256,37);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false,transparent:true}));s.scale.set(11,1.55,1);s.position.set(x,y,z);s.renderOrder=10;scene.add(s);}
+label('Top windows: hot air out',7,13.2,0);label('Folding doors: walk out',7,3.8,2.6);label('Gallery roof: shade',7,12.1,5.6);label('Courtyard',11,1.2,15);
+new ResizeObserver(()=>{const w=wrap.clientWidth;r.setSize(w,H);cam.aspect=w/H;cam.updateProjectionMatrix();}).observe(wrap);
+const clock=new THREE.Clock();
+(function tick(){requestAnimationFrame(tick);const tt=clock.getElapsedTime();parts.forEach(p=>{const u=(p.o+tt*.06)%1;p.m.position.copy(cv.getPointAt(u));const f=Math.max(0,Math.min(1,(u-.3)/.4));p.m.material.color.copy(blue).lerp(coral,f);});ctl.update();r.render(scene,cam);})();
+</script>
+</body>
+</html>

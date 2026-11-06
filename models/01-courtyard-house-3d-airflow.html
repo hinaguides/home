@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Courtyard House 3D Airflow</title>
+<link rel="stylesheet" href="../shared/base.css">
+</head>
+<body>
+<main>
+<h1>Courtyard house — 3D massing with airflow</h1>
+<p class="lede">First massing sketch (6 Nov 2026). Courtyard on the R1 side, kitchen in the back wing, 2-storey R1 wall with upstairs gallery, single-storey front block. Superseded by the centred-courtyard decision, but the airflow code is reusable.</p>
+<h2 class="sr-only">3D massing model of the 14 marla courtyard house with the courtyard on the R1 side, kitchen in the back wing, and animated airflow sinking into the courtyard and leaving through high vents and a kitchen chimney.</h2>
+<div id="wrap" style="position:relative;width:100%;height:440px;border-radius:12px;overflow:hidden;background:var(--surface-1)"></div>
+<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:13px;color:var(--text-secondary)">
+<button id="air" style="font-size:13px">Hide airflow</button>
+<span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#378ADD;margin-right:6px"></span>Cool air in</span>
+<span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#D85A30;margin-right:6px"></span>Warm air out</span>
+<span>Drag to rotate, scroll to zoom</span>
+</div>
+</main>
+<script type="module">
+import * as THREE from 'https://esm.sh/three@0.160.0';
+import { OrbitControls } from 'https://esm.sh/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+const wrap=document.getElementById('wrap');const H=440;
+const scene=new THREE.Scene();
+const cam=new THREE.PerspectiveCamera(40,wrap.clientWidth/H,1,1000);
+cam.position.set(125,85,120);
+const r=new THREE.WebGLRenderer({antialias:true,alpha:true});
+r.setPixelRatio(Math.min(devicePixelRatio,2));r.setSize(wrap.clientWidth,H);wrap.appendChild(r.domElement);
+const ctl=new OrbitControls(cam,r.domElement);ctl.target.set(42,6,28);ctl.enableDamping=true;ctl.maxPolarAngle=Math.PI/2.1;ctl.update();
+scene.add(new THREE.HemisphereLight(0xffffff,0x888877,1.1));
+const sun=new THREE.DirectionalLight(0xffffff,1.2);sun.position.set(60,100,80);scene.add(sun);
+const g=new THREE.Mesh(new THREE.PlaneGeometry(260,260),new THREE.MeshLambertMaterial({color:0xC9C7BE}));g.rotation.x=-Math.PI/2;g.position.set(42,-0.2,28);scene.add(g);
+// Plot outline in feet (x along back edge, z towards front)
+const pts=[[0,0],[83,0],[71,54],[64.75,56.75],[18.75,45.75],[12.25,39]];
+const sh=new THREE.Shape();sh.moveTo(pts[0][0],-pts[0][1]);pts.slice(1).forEach(p=>sh.lineTo(p[0],-p[1]));
+const plot=new THREE.Mesh(new THREE.ShapeGeometry(sh),new THREE.MeshLambertMaterial({color:0xF1EFE8}));plot.rotation.x=-Math.PI/2;scene.add(plot);
+const edge=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts.map(p=>new THREE.Vector3(p[0],0.05,p[1]))),new THREE.LineBasicMaterial({color:0x5F5E5A}));scene.add(edge);
+// box(x1,x2,z1,z2,y1,y2,color,opacity) — reusable massing block with outline
+function box(x1,x2,z1,z2,y1,y2,color,op){const m=new THREE.Mesh(new THREE.BoxGeometry(x2-x1,y2-y1,z2-z1),new THREE.MeshLambertMaterial({color,transparent:op<1,opacity:op,depthWrite:op>=1}));m.position.set((x1+x2)/2,(y1+y2)/2,(z1+z2)/2);scene.add(m);const e=new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry),new THREE.LineBasicMaterial({color:0x5F5E5A,transparent:true,opacity:.7}));e.position.copy(m.position);scene.add(e);return m;}
+const W=0xE4E1D6,S=0xB4B2A9;
+box(7,78,5,19,0,22,W,.42);box(7,78,5,19,10.8,11.2,S,.6);   // back wing, 2 storeys
+box(14,52,19,35,0,22,W,.42);box(14,52,19,35,10.8,11.2,S,.6); // main block, R2 side
+box(71,74,19,35,0,22,W,.42);box(71,74,19,35,10.8,11.2,S,.6); // R1 wall with gallery
+box(50,73,35,43,0,11,W,.42);                                  // single-storey front block
+box(40.3,51.7,5.3,18.7,0.2,10.6,0xF0997B,.9);                 // kitchen
+box(43,46,10,13,22,26,S,1);                                   // kitchen chimney
+box(52,71,19,35,0,0.15,0x9FE1CB,1);                           // courtyard floor
+const air=new THREE.Group();scene.add(air);
+// Each path: [points, starting warmth 0..1]
+const paths=[
+[[[60,34,24],[60,8,26],[58,2,27],[48,2,27],[34,3,27],[24,8,27],[16,10,27],[8,11,27]],0],
+[[[64,34,22],[63,6,21],[56,2,17],[48,2,13],[45,6,10],[45,9,7],[45,10,1]],0],
+[[[46,3,15],[44.5,10,12],[44.5,22,11.5],[44.5,30,11.5]],.6],
+[[[66,36,25],[66,14,22],[66,13,15],[66,19,9],[66,21,2]],0],
+[[[56,36,30],[56,14,30],[44,13,30],[30,18,30],[10,21,30]],0]];
+const blue=new THREE.Color(0x378ADD),coral=new THREE.Color(0xD85A30);
+const parts=[];const sg=new THREE.SphereGeometry(.55,8,8);
+paths.forEach(([p,c0])=>{const cv=new THREE.CatmullRomCurve3(p.map(a=>new THREE.Vector3(...a)));
+air.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(cv.getPoints(60)),new THREE.LineBasicMaterial({color:0x85B7EB,transparent:true,opacity:.35})));
+for(let i=0;i<16;i++){const m=new THREE.Mesh(sg,new THREE.MeshBasicMaterial({color:0x378ADD}));air.add(m);parts.push({m,cv,o:i/16,c0});}});
+function label(text,x,y,z){const c=document.createElement('canvas');c.width=256;c.height=64;const k=c.getContext('2d');k.fillStyle='rgba(255,255,255,.92)';k.beginPath();k.roundRect(4,8,248,48,24);k.fill();k.fillStyle='#2C2C2A';k.font='500 26px sans-serif';k.textAlign='center';k.textBaseline='middle';k.fillText(text,128,33);const s=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false,transparent:true}));s.scale.set(14,3.5,1);s.position.set(x,y,z);s.renderOrder=10;scene.add(s);}
+label('Courtyard',61.5,3,30);label('Kitchen',46,5,17);label('Back · neighbours',42,3,-6);label('R1 road',88,2,30);label('R2 road',-6,2,22);label('Front gates',40,2,58);
+document.getElementById('air').onclick=e=>{air.visible=!air.visible;e.target.textContent=air.visible?'Hide airflow':'Show airflow';};
+new ResizeObserver(()=>{const w=wrap.clientWidth;r.setSize(w,H);cam.aspect=w/H;cam.updateProjectionMatrix();}).observe(wrap);
+const clock=new THREE.Clock();
+(function tick(){requestAnimationFrame(tick);const t=clock.getElapsedTime();
+parts.forEach(p=>{const u=(p.o+t*.07)%1;p.m.position.copy(p.cv.getPointAt(u));const f=p.c0+(1-p.c0)*u*u*(3-2*u);p.m.material.color.copy(blue).lerp(coral,f);});
+ctl.update();r.render(scene,cam);})();
+</script>
+</body>
+</html>

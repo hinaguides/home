@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doors, Windows and Routes</title>
+<link rel="stylesheet" href="../shared/base.css">
+<style>
+.rb{font-size:13px;padding:6px 12px;border-radius:var(--radius);border:0.5px solid var(--border);background:transparent;color:var(--text-secondary);cursor:pointer}
+.rb.on{border-color:var(--border-stronger);background:var(--surface-1);color:var(--text-primary)}
+.rt{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity .3s}
+.rt.show{opacity:1}
+</style>
+</head>
+<body>
+<main>
+<h1>Ground floor — doors, windows and routes</h1>
+<p class="lede">Concept sketch, not to scale (6 Nov 2026, courtyard on the R1 side). Stairs rise from the family hall, gallery wraps the courtyard. Tap a person to see how they move through the house.</p>
+<h2 class="sr-only">Ground floor plan showing doors, windows and the walking route of guests, family arriving by car, office visitors and house help.</h2>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+<button class="rb on" data-r="guest">Guests</button>
+<button class="rb" data-r="car">Family by car</button>
+<button class="rb" data-r="office">Office visitor</button>
+<button class="rb" data-r="help">House help</button>
+</div>
+<svg width="100%" viewBox="0 0 680 540" role="img"><title>Ground floor doors, windows and routes</title><desc>Plan with stairs rising from the family hall, kitchen and staff room in the back wing, parents' room facing the gallery, great room with folding doors on both sides, gallery wrapping the courtyard, and a front row of garage, entry, guest WC and office.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<text class="ts" x="340" y="22" text-anchor="middle">Back · 5 ft service lane</text>
+<rect x="50" y="50" width="580" height="400" fill="none" stroke="var(--border-stronger)" stroke-width="2"/>
+<text class="ts" x="30" y="255" text-anchor="middle">R2</text>
+<text class="ts" x="652" y="255" text-anchor="middle">R1</text>
+<g class="c-gray"><rect x="54" y="54" width="84" height="262" stroke-width="0.5"/><text class="th" x="96" y="96" text-anchor="middle" dominant-baseline="central">Stairs</text><text class="th" x="96" y="230" text-anchor="middle" dominant-baseline="central">Hall</text></g>
+<g fill="none" stroke="var(--border-strong)" stroke-width="0.5"><line x1="58" y1="70" x2="134" y2="70"/><line x1="58" y1="80" x2="134" y2="80"/><line x1="58" y1="112" x2="134" y2="112"/><line x1="58" y1="122" x2="134" y2="122"/><line x1="58" y1="132" x2="134" y2="132"/></g>
+<g class="c-gray"><rect x="140" y="54" width="140" height="84" stroke-width="0.5"/><text class="th" x="210" y="96" text-anchor="middle" dominant-baseline="central">Kitchen</text></g>
+<g class="c-gray"><rect x="282" y="54" width="116" height="84" stroke-width="0.5"/><text class="th" x="340" y="96" text-anchor="middle" dominant-baseline="central">Staff room</text></g>
+<g class="c-gray"><rect x="400" y="54" width="226" height="84" stroke-width="0.5"/><text class="th" x="513" y="96" text-anchor="middle" dominant-baseline="central">Parents' room</text></g>
+<g class="c-coral"><rect x="140" y="140" width="258" height="218" stroke-width="0.5"/><text class="th" x="269" y="180" text-anchor="middle" dominant-baseline="central">Dining</text><text class="th" x="269" y="290" text-anchor="middle" dominant-baseline="central">Great room</text></g>
+<g class="c-amber"><rect x="400" y="140" width="226" height="190" stroke-width="0.5"/><text class="ts" x="513" y="152" text-anchor="middle" dominant-baseline="central">Gallery</text></g>
+<g class="c-teal"><rect x="424" y="164" width="178" height="142" stroke-width="0.5"/><text class="th" x="513" y="235" text-anchor="middle" dominant-baseline="central">Courtyard</text></g>
+<g class="c-gray"><rect x="54" y="318" width="176" height="128" stroke-width="0.5"/><text class="th" x="142" y="382" text-anchor="middle" dominant-baseline="central">Garage</text></g>
+<g class="c-coral"><rect x="232" y="360" width="98" height="86" stroke-width="0.5"/><text class="th" x="281" y="403" text-anchor="middle" dominant-baseline="central">Entry</text></g>
+<g class="c-gray"><rect x="332" y="360" width="86" height="86" stroke-width="0.5"/><text class="th" x="375" y="403" text-anchor="middle" dominant-baseline="central">Guest WC</text></g>
+<g class="c-gray"><rect x="420" y="332" width="206" height="114" stroke-width="0.5"/><text class="th" x="523" y="389" text-anchor="middle" dominant-baseline="central">Office</text></g>
+<g stroke="#1D9E75" stroke-width="5" stroke-linecap="butt">
+<line x1="76" y1="317" x2="116" y2="317"/>
+<line x1="139" y1="80" x2="139" y2="115"/>
+<line x1="281" y1="80" x2="281" y2="110"/>
+<line x1="180" y1="139" x2="240" y2="139"/>
+<line x1="460" y1="139" x2="500" y2="139"/>
+<line x1="255" y1="359" x2="305" y2="359"/>
+<line x1="262" y1="448" x2="300" y2="448"/>
+<line x1="331" y1="390" x2="331" y2="420"/>
+<line x1="480" y1="331" x2="520" y2="331"/>
+<line x1="575" y1="448" x2="610" y2="448"/>
+<line x1="320" y1="52" x2="355" y2="52"/>
+</g>
+<line x1="68" y1="450" x2="216" y2="450" stroke="var(--text-primary)" stroke-width="6"/>
+<g stroke="#D85A30" stroke-width="5" stroke-dasharray="8 5"><line x1="139" y1="165" x2="139" y2="300"/><line x1="399" y1="165" x2="399" y2="330"/></g>
+<g stroke="#378ADD" stroke-width="4"><line x1="170" y1="51" x2="230" y2="51"/><line x1="51" y1="200" x2="51" y2="260"/><line x1="629" y1="75" x2="629" y2="120"/><line x1="629" y1="360" x2="629" y2="420"/><line x1="530" y1="139" x2="600" y2="139"/><line x1="440" y1="331" x2="470" y2="331"/><line x1="540" y1="331" x2="600" y2="331"/></g>
+<path id="guest" class="rt show" stroke="#7F77DD" marker-end="url(#arrow)" d="M281 500 L281 405 L281 330 L269 260"/>
+<path id="car" class="rt" stroke="#7F77DD" marker-end="url(#arrow)" d="M142 500 L142 400 L96 340 L96 250 L96 140 L170 100"/>
+<path id="office" class="rt" stroke="#7F77DD" marker-end="url(#arrow)" d="M592 500 L592 420 L540 395"/>
+<path id="help" class="rt" stroke="#7F77DD" marker-end="url(#arrow)" d="M340 105 L281 100 L210 110 L210 175 L250 200"/>
+<text class="ts" x="340" y="476" text-anchor="middle">5 ft setback · ramp and steps</text>
+<text class="ts" x="340" y="530" text-anchor="middle">Front road</text>
+</svg>
+<div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:6px;font-size:13px;color:var(--text-secondary)">
+<span><span style="display:inline-block;width:18px;height:4px;background:#1D9E75;vertical-align:middle;margin-right:6px"></span>Door</span>
+<span><span style="display:inline-block;width:18px;height:4px;background:#D85A30;vertical-align:middle;margin-right:6px"></span>Folding glass doors</span>
+<span><span style="display:inline-block;width:18px;height:4px;background:#378ADD;vertical-align:middle;margin-right:6px"></span>Window or roshandan</span>
+<span><span style="display:inline-block;width:18px;height:4px;background:var(--text-primary);vertical-align:middle;margin-right:6px"></span>Shutter</span>
+</div>
+<p id="cap" style="font-size:14px;color:var(--text-secondary);margin:8px 0 0;line-height:1.6"></p>
+</main>
+<script>
+const C={guest:'Front gate, front door, entry, straight into the great room. The guest WC is right beside the entry.',
+car:'Shutter, garage, side door into the hall, then upstairs or into the kitchen. Never passes the guests.',
+office:'Their own door from the front strip straight into the office. They never enter the house.',
+help:'Staff room into the kitchen, then out to the dining table. Never crosses the living area.'};
+function show(r){document.querySelectorAll('.rt').forEach(p=>p.classList.toggle('show',p.id===r));document.querySelectorAll('.rb').forEach(b=>b.classList.toggle('on',b.dataset.r===r));document.getElementById('cap').textContent=C[r];}
+document.querySelectorAll('.rb').forEach(b=>b.onclick=()=>show(b.dataset.r));show('guest');
+</script>
+</body>
+</html>

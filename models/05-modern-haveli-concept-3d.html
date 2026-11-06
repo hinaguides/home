@@ -1,0 +1,341 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>New City Courtyard House</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 3D model first, a quiet column of the ideas beside it (below it on phones). */
+:root{
+  --bg:#ECEAE5; --panel:#F6F5F2; --fg:#2A2B28; --muted:#6D6E68; --line:#D6D3CC;
+  --accent:#8A5A3B; --accent-soft:#EADFD5; --sky:#DCE3E6; --ground:#D9D4C7;
+  --display:"Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body:"Figtree", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1D1E1C; --panel:#252623; --fg:#E8E6E0; --muted:#A3A39B; --line:#3A3B37;
+  --accent:#D49A72; --accent-soft:#3A2E26; --sky:#2B3134; --ground:#3A3832; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1D1E1C; --panel:#252623; --fg:#E8E6E0; --muted:#A3A39B; --line:#3A3B37;
+  --accent:#D49A72; --accent-soft:#3A2E26; --sky:#2B3134; --ground:#3A3832; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;padding-block:20px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1400px;margin:0 auto}
+@media (max-width:860px){.wrap{grid-template-columns:minmax(0,1fr)}}
+.stage{position:relative;min-width:0;border-radius:14px;overflow:hidden;background:var(--sky);height:clamp(360px,72vh,780px)}
+#c{display:block;width:100%;height:100%;touch-action:none}
+.controls{position:absolute;left:12px;right:12px;bottom:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;pointer-events:none}
+.controls>*{pointer-events:auto}
+.chipset{display:flex;background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(6px);border-radius:999px;padding:3px;border:1px solid var(--line)}
+.chip{font:500 13px var(--body);color:var(--muted);background:none;border:0;border-radius:999px;padding:6px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--panel)}
+.chip:focus-visible,.idea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.time{display:flex;align-items:center;gap:8px;background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font:500 13px var(--mono);color:var(--fg)}
+.time input{width:110px;accent-color:var(--accent)}
+aside{min-width:0;display:flex;flex-direction:column;gap:14px}
+h1{font:700 26px/1.15 var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+.lede{color:var(--muted);margin:0;max-width:60ch}
+.ideas{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.idea{width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:10px 12px;cursor:pointer;color:var(--fg);font:inherit;display:grid;grid-template-columns:1fr auto;gap:2px 10px}
+.idea:hover{background:var(--panel)}
+.idea[aria-current="true"]{background:var(--accent-soft)}
+.idea b{font:600 15px var(--body)}
+.idea span{grid-column:1;color:var(--muted);font-size:13.5px}
+.idea small{grid-row:1;grid-column:2;font:400 11.5px var(--mono);color:var(--muted);letter-spacing:.03em;align-self:center}
+.note{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin:0}
+</style>
+
+<div class="wrap">
+  <div class="stage">
+    <canvas id="c" aria-label="3D model of the courtyard house. Drag to rotate, pinch or scroll to zoom."></canvas>
+    <div class="controls">
+      <div class="chipset" role="group" aria-label="Season">
+        <button class="chip" id="summer" aria-pressed="true">June</button>
+        <button class="chip" id="winter" aria-pressed="false">December</button>
+      </div>
+      <label class="time"><span id="tlabel">10:00</span><input id="t" type="range" min="6" max="18" step="0.25" value="10" aria-label="Time of day"></label>
+      <div class="chipset" role="group" aria-label="Show">
+        <button class="chip" id="upper" aria-pressed="true">Upper floor</button>
+        <button class="chip" id="cover" aria-pressed="true">Cover</button>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <h1>Courtyard house, New City</h1>
+    <p class="lede">An introverted house: closed to the roads, open to a green centre. Tap an idea to see where it lands.</p>
+    <ul class="ideas" id="ideas"></ul>
+    <p class="note">Concept massing, not a plan. The plot is simplified to a 47 ft front, about 60 ft deep, widening along R1. 5 ft setbacks front and back. Ground floor 11 ft, upper floor 10 ft.</p>
+  </aside>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+const canvas=document.getElementById('c');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.outputEncoding=THREE.sRGBEncoding;
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(42,1,0.5,1200);
+const controls=new THREE.OrbitControls(camera,canvas);
+controls.enableDamping=true; controls.maxPolarAngle=Math.PI*0.495; controls.minDistance=6; controls.maxDistance=260;
+
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function applyTheme(){scene.background=new THREE.Color(css('--sky'));groundMat.color.set(css('--ground'));}
+
+/* ---------- materials ---------- */
+function boardTexture(){
+  const c=document.createElement('canvas');c.width=c.height=512;const g=c.getContext('2d');
+  g.fillStyle='#BDB9B0';g.fillRect(0,0,512,512);
+  for(let i=0;i<9000;i++){const v=Math.random()*30-15;g.fillStyle=`rgba(${v>0?255:0},${v>0?255:0},${v>0?255:0},${Math.abs(v)/260})`;g.fillRect(Math.random()*512,Math.random()*512,2,2);}
+  g.strokeStyle='rgba(60,55,48,.16)';g.lineWidth=2;
+  for(let y=0;y<512;y+=64){g.beginPath();g.moveTo(0,y);g.lineTo(512,y);g.stroke();}
+  g.fillStyle='rgba(50,45,40,.25)';
+  for(let y=32;y<512;y+=128)for(let x=40;x<512;x+=128){g.beginPath();g.arc(x,y,3,0,7);g.fill();}
+  const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(1/16,1/16);t.encoding=THREE.sRGBEncoding;return t;
+}
+const M=(o)=>new THREE.MeshStandardMaterial(o);
+const wallMat=M({map:boardTexture(),roughness:.92});
+const roofMat=M({color:'#E8E6E0',roughness:.85});
+const terraceMat=M({color:'#CFC8BA',roughness:.9});
+const glassMat=M({color:'#7F9497',roughness:.05,metalness:.2,transparent:true,opacity:.32});
+const frameMat=M({color:'#1E1F1E',roughness:.5,metalness:.4});
+const woodMat=M({color:'#9A6B45',roughness:.7});
+const terraMat=M({color:'#A65E3E',roughness:.95});
+const lawnMat=M({color:'#5E8A3E',roughness:1});
+const stoneMat=M({color:'#B9B2A4',roughness:.95});
+const leafMat=M({color:'#4E7B35',roughness:1});
+const leafLight=M({color:'#7FA344',roughness:1});
+const roadMat=M({color:'#6A6B68',roughness:1});
+const groundMat=M({color:'#D9D4C7',roughness:1});
+const shutterMat=M({color:'#A9A59C',roughness:.6,metalness:.3});
+const louverMat=M({color:'#EEEDE8',roughness:.7});
+const neighbourMat=M({color:'#CFCCC4',roughness:.95});
+
+function add(mesh,cast=true,recv=true){mesh.castShadow=cast;mesh.receiveShadow=recv;scene.add(mesh);return mesh;}
+function box(x0,x1,y0,y1,z0,z1,mat,cast=true){
+  const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),mat);
+  m.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2);return add(m,cast);
+}
+function seg(x1,z1,x2,z2,y0,h,thick,mat,cast=true){ // a thin wall along a line
+  const L=Math.hypot(x2-x1,z2-z1);const m=new THREE.Mesh(new THREE.BoxGeometry(L,h,thick),mat);
+  m.position.set((x1+x2)/2,y0+h/2,(z1+z2)/2);m.rotation.y=-Math.atan2(z2-z1,x2-x1);return add(m,cast);
+}
+const interiorMat=M({color:'#3B3631',roughness:.9});
+function post(x,z,y0,h,w=0.3){return box(x-w/2,x+w/2,y0,y0+h,z-w/2,z+w/2,frameMat);}
+// glass set just proud of the wall face, with a dark room interior behind it
+function glassWallP(x1,z1,x2,z2,y0,h,step=4,nx=0,nz=0){
+  seg(x1+nx*.06,z1+nz*.06,x2+nx*.06,z2+nz*.06,y0,h,0.04,interiorMat,false);
+  x1+=nx*.3;x2+=nx*.3;z1+=nz*.3;z2+=nz*.3;
+  seg(x1,z1,x2,z2,y0,h,0.15,glassMat,false);
+  const L=Math.hypot(x2-x1,z2-z1),n=Math.max(1,Math.round(L/step));
+  for(let i=0;i<=n;i++){const t=i/n;post(x1+(x2-x1)*t,z1+(z2-z1)*t,y0,h);}
+  seg(x1,z1,x2,z2,y0,0.3,0.3,frameMat);seg(x1,z1,x2,z2,y0+h-0.3,0.3,0.3,frameMat);
+}
+
+/* ---------- site ---------- */
+const R1=z=>47+13*z/60;           // R1 boundary widens toward the back
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(600,600),groundMat);ground.rotation.x=-Math.PI/2;ground.position.y=-0.05;add(ground,false);
+function flat(pts,y,mat){const s=new THREE.Shape();pts.forEach((p,i)=>i?s.lineTo(p[0],-p[1]):s.moveTo(p[0],-p[1]));
+  const m=new THREE.Mesh(new THREE.ShapeGeometry(s),mat);m.rotation.x=-Math.PI/2;m.position.y=y;return add(m,false);}
+flat([[-40,-30],[120,-30],[120,0],[-40,0]],0,roadMat);                 // front road
+flat([[-30,0],[0,0],[0,140],[-30,140]],0,roadMat);                      // R2
+flat([[R1(0),0],[R1(0)+30,0],[R1(140)+30,140],[R1(140),140]],0,roadMat); // R1
+flat([[0,0],[R1(0),0],[R1(5),5],[0,5]],0.04,stoneMat);                  // front ramp strip
+// neighbours behind
+[[2,22],[24,46],[48,74]].forEach(([a,b],i)=>box(a,b,0,18+i*2,64,96,neighbourMat));
+
+/* ---------- building ---------- */
+const ct={x0:17,x1:35,z0:20,z1:38};     // courtyard
+const lw={x0:4,x1:10,z0:40,z1:46};      // light well
+function shapeFrom(pts,holes=[]){
+  const s=new THREE.Shape();pts.forEach((p,i)=>i?s.lineTo(p[0],-p[1]):s.moveTo(p[0],-p[1]));
+  holes.forEach(h=>{const p=new THREE.Path();h.forEach((q,i)=>i?p.lineTo(q[0],-q[1]):p.moveTo(q[0],-q[1]));s.holes.push(p);});return s;
+}
+const rect=r=>[[r.x0,r.z0],[r.x0,r.z1],[r.x1,r.z1],[r.x1,r.z0]];
+function extrude(shape,y,h,capMat){
+  const g=new THREE.ExtrudeGeometry(shape,{depth:h,bevelEnabled:false});
+  const m=new THREE.Mesh(g,[capMat,wallMat]);m.rotation.x=-Math.PI/2;m.position.y=y;return add(m);
+}
+const foot=[[0,5],[R1(5),5],[R1(55),55],[0,55]];
+extrude(shapeFrom(foot,[rect(ct),rect(lw)]),0,11,terraceMat);
+
+// upper floor: U-shape opening onto a terrace over the single-storey office
+const upperGroup=new THREE.Group();scene.add(upperGroup);
+const upPts=[[0,5],[14,5],[14,20],[17,20],[17,38],[35,38],[35,20],[30,20],[30,5],[R1(5),5],[R1(55),55],[0,55]];
+const upper=extrude(shapeFrom(upPts,[rect(lw)]),11,10,roofMat);scene.remove(upper);upperGroup.add(upper);
+
+// terrace parapet (blocks the street view) and glass rail onto the courtyard
+const parapet=box(14,30,11,15,5,5.9,wallMat);scene.remove(parapet);upperGroup.add(parapet);
+// roof parapet edge strip
+function toUpper(m){scene.remove(m);upperGroup.add(m);return m;}
+
+/* ---------- courtyard ---------- */
+flat(rect(ct).map(p=>p),0.06,stoneMat);
+flat([[ct.x0+3,ct.z0+3],[ct.x0+3,ct.z1-3],[ct.x1-3,ct.z1-3],[ct.x1-3,ct.z0+3]],0.1,lawnMat);
+// glass on three sides at ground level (left: great room, back: parents + kitchen, right: hall)
+glassWallP(ct.x0,ct.z0+1,ct.x0,ct.z1-.3,0,10.5,3.5,1,0);     // great room
+glassWallP(ct.x0+.3,ct.z1,ct.x1-.3,ct.z1,0,10.5,3.5,0,-1);   // parents' room + kitchen
+glassWallP(ct.x1,ct.z1-.3,ct.x1,ct.z0+4,0,10.5,3.5,-1,0);    // hall
+// front side: office wall stays solid, one timber-and-glass door
+box(24,27,0,8,ct.z0-0.1,ct.z0+0.12,woodMat);
+const upGlass=[];
+function upperGlass(x1,z1,x2,z2,nx,nz){const before=scene.children.length;glassWallP(x1,z1,x2,z2,11.5,8,3.5,nx,nz);
+  scene.children.slice(before).forEach(o=>upGlass.push(o));}
+upperGlass(ct.x0+.3,ct.z1,ct.x1-.3,ct.z1,0,-1);     // family lounge
+upperGlass(ct.x1,ct.z1-.3,ct.x1,ct.z0+.3,-1,0);     // your bedroom
+upperGlass(ct.x0,ct.z1-6,ct.x0,ct.z1-.3,1,0);       // brother's room
+upGlass.forEach(toUpper);
+// terracotta feature wall on the upper left face
+const terra=box(ct.x0-0.05,ct.x0+0.12,11.5,21,ct.z0+1,ct.z1-6.5,terraMat,false);toUpper(terra);
+// rail from terrace to courtyard
+const railBefore=scene.children.length;
+seg(ct.x0,ct.z0,30,ct.z0,11,3.3,0.12,glassMat,false);seg(ct.x0,ct.z0,30,ct.z0,14.2,0.15,0.2,frameMat);
+scene.children.slice(railBefore).forEach(toUpper);
+
+// tree in a dark planter
+box(23.5,28.5,0,2.6,26.5,31.5,frameMat);
+const trunk=add(new THREE.Mesh(new THREE.CylinderGeometry(.35,.5,13,8),woodMat));trunk.position.set(26,8,29);
+[[26,15,29,4.2,leafLight],[24.2,13,28,3,leafMat],[27.8,13.5,30.4,3.1,leafMat],[26,17.5,29.5,2.8,leafLight]].forEach(([x,y,z,r,m])=>{
+  const s=add(new THREE.Mesh(new THREE.IcosahedronGeometry(r,1),m));s.position.set(x,y,z);});
+// low planting along the glass edges
+for(let i=0;i<14;i++){const s=add(new THREE.Mesh(new THREE.IcosahedronGeometry(0.9+Math.random()*.5,0),i%2?leafMat:leafLight));
+  const side=i%3;s.position.set(side===0?ct.x0+1.4:ct.x0+2+Math.random()*14, .8, side===0?ct.z0+3+Math.random()*12:ct.z1-1.4);}
+
+// covered courtyard: timber louvers raised on posts so hot air escapes
+const coverGroup=new THREE.Group();scene.add(coverGroup);
+(function(){const y=23.2;const before=scene.children.length;
+  [[ct.x0,ct.z0],[ct.x1,ct.z0],[ct.x0,ct.z1],[ct.x1,ct.z1]].forEach(([x,z])=>post(x,z,21,y-21,0.4));
+  box(ct.x0,ct.x1,y,y+.5,ct.z0-.2,ct.z0+.3,woodMat);box(ct.x0,ct.x1,y,y+.5,ct.z1-.3,ct.z1+.2,woodMat);
+  for(let x=ct.x0+0.6;x<ct.x1;x+=1.2)box(x-.15,x+.15,y,y+.7,ct.z0,ct.z1,woodMat);
+  const g=new THREE.Mesh(new THREE.BoxGeometry(18.4,.08,18.4),glassMat);g.position.set((ct.x0+ct.x1)/2,y+.9,(ct.z0+ct.z1)/2);scene.add(g);
+  scene.children.slice(before).forEach(o=>{scene.remove(o);coverGroup.add(o);});
+})();
+
+/* ---------- light well ---------- */
+flat(rect(lw),0.08,lawnMat);
+[[7,0,43,1.6]].forEach(([x,y,z,r])=>{const s=add(new THREE.Mesh(new THREE.IcosahedronGeometry(r,1),leafMat));s.position.set(x,1.4,z);});
+const lwT=add(new THREE.Mesh(new THREE.CylinderGeometry(.15,.2,7,6),woodMat));lwT.position.set(7,3.5,43);
+const lwTop=add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.8,1),leafLight));lwTop.position.set(7,7.5,43);
+glassWallP(lw.x0,lw.z0,lw.x1-.3,lw.z0,0,10.5,3,0,1);glassWallP(lw.x1,lw.z0+.3,lw.x1,lw.z1,0,10.5,3,-1,0);
+
+/* ---------- street side: closed ---------- */
+// garage shutter, plain like a workshop
+box(32,46,0,9,4.85,5.0,shutterMat);
+for(let y=0.6;y<9;y+=0.6)box(32,46,y,y+.06,4.8,4.86,frameMat,false);
+// main entry: tall timber door, recessed
+box(5,9,0,10,4.9,5.6,woodMat);
+// service gate near R1
+box(46.6,R1(5)-0.6,0,7.5,4.88,5.0,frameMat);
+// roshandans: high slit windows on the roads
+function slitX(x,z0,z1,y){box(x-0.1,x+0.05,y,y+1.2,z0,z1,frameMat,false);}
+[[10,16],[22,28],[44,50]].forEach(([a,b])=>{slitX(0,a,b,8.6);slitX(0,a,b,18.4);});
+[[2,7],[16,21]].forEach(([a,b])=>box(a,b,18.4,19.6,4.86,5.0,frameMat,false));
+// R1 slits on the slanted wall
+[[12,18],[28,34],[44,50]].forEach(([a,b])=>{[8.6,18.4].forEach(y=>{
+  const m=seg(R1(a)+0.06,a,R1(b)+0.06,b,y,1.2,0.1,frameMat,false);if(y>11)toUpper(m);});});
+// back wall: small kitchen window and staff door onto the lane
+box(28,34,5,8,54.95,55.1,frameMat,false);box(42,45,0,7.5,54.95,55.1,woodMat);
+upperGroup.children.forEach(o=>{});
+
+/* ---------- back setback as a garden ---------- */
+flat([[0,55],[R1(55),55],[R1(60),60],[0,60]],0.05,stoneMat);
+flat([[0,57.4],[R1(57.4),57.4],[R1(60),60],[0,60]],0.08,lawnMat);
+seg(0,60,R1(60),60,0,7,0.7,wallMat);
+for(let y=7.6;y<15;y+=0.75)seg(0,59.8,R1(60),59.8,y,0.12,0.6,louverMat);
+for(let x=0;x<R1(60);x+=8)box(x,x+0.25,7,15,59.6,60,louverMat);
+for(let i=0;i<16;i++){const s=add(new THREE.Mesh(new THREE.IcosahedronGeometry(1+Math.random()*.6,0),i%2?leafMat:leafLight));s.position.set(2+i*3.5,1,58.7);}
+
+/* ---------- a few street trees + orientation marks ---------- */
+[[-12,-12],[20,-14],[60,-12],[-12,40],[68,40]].forEach(([x,z])=>{
+  const t=add(new THREE.Mesh(new THREE.CylinderGeometry(.3,.4,6,6),woodMat));t.position.set(x,3,z);
+  const c=add(new THREE.Mesh(new THREE.IcosahedronGeometry(3.2,1),leafMat));c.position.set(x,7.5,z);});
+function groundLabel(text,x,z,rot=0,size=7){
+  const c=document.createElement('canvas');c.width=512;c.height=128;const g=c.getContext('2d');
+  g.fillStyle='rgba(255,255,255,.78)';g.font='500 64px "IBM Plex Mono", monospace';g.textAlign='center';g.textBaseline='middle';g.fillText(text,256,64);
+  const tex=new THREE.CanvasTexture(c);const m=new THREE.Mesh(new THREE.PlaneGeometry(size*4,size),new THREE.MeshBasicMaterial({map:tex,transparent:true,depthWrite:false}));
+  m.rotation.x=-Math.PI/2;m.rotation.z=rot;m.position.set(x,0.1,z);scene.add(m);}
+groundLabel('FRONT ROAD',24,-14,0);groundLabel('R2',-15,30,Math.PI/2,6);groundLabel('R1',R1(30)+15,30,-Math.PI/2,6);
+
+/* ---------- light & sun ---------- */
+const hemi=new THREE.HemisphereLight(0xf2f4f5,0x8a8272,0.55);scene.add(hemi);
+const sun=new THREE.DirectionalLight(0xfff3e2,1.15);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);
+Object.assign(sun.shadow.camera,{left:-70,right:70,top:70,bottom:-70,near:1,far:400});sun.shadow.bias=-0.0004;
+sun.target.position.set(28,0,30);scene.add(sun,sun.target);
+// plot orientation from the map: R2 faces roughly south-west, R1 north-east
+const N=new THREE.Vector3(1,0,1).normalize(),E=new THREE.Vector3(-1,0,1).normalize(),UP=new THREE.Vector3(0,1,0);
+let season='summer',hour=10;
+function updateSun(){
+  const phi=33.8*Math.PI/180,dec=(season==='summer'?23.4:-23.4)*Math.PI/180,H=(hour-12)*15*Math.PI/180;
+  const e=-Math.cos(dec)*Math.sin(H),n=Math.cos(phi)*Math.sin(dec)-Math.sin(phi)*Math.cos(dec)*Math.cos(H),u=Math.sin(phi)*Math.sin(dec)+Math.cos(phi)*Math.cos(dec)*Math.cos(H);
+  const d=new THREE.Vector3().addScaledVector(E,e).addScaledVector(N,n).addScaledVector(UP,Math.max(u,0.02)).normalize();
+  sun.position.copy(sun.target.position).addScaledVector(d,180);
+  sun.intensity=u<=0?0.05:Math.min(1.2,0.35+u*1.1);
+  const h=Math.floor(hour),m=Math.round((hour-h)*60);document.getElementById('tlabel').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+}
+
+/* ---------- ideas & views ---------- */
+const views={
+  overview:{p:[78,92,-48],t:[28,4,30]},
+  street:{p:[-24,6,-40],t:[22,8,12]},
+  courtyard:{p:[33.4,5.6,21.6],t:[19,9,35]},
+  cover:{p:[28,46,6],t:[26,18,30]},
+  lightwell:{p:[16,44,26],t:[7,0,43]},
+  back:{p:[R1(57.5)-1.5,5.6,57.6],t:[0,6,57.6]},
+  terrace:{p:[15.5,16.5,6.8],t:[28,11,32],season:'winter',hour:12}
+};
+const ideas=[
+  ['street','Closed to the roads','Blank concrete walls, high roshandans, a plain shuttered garage.','1 · 5'],
+  ['courtyard','A green courtyard at the centre','One tree in a dark planter, lawn, planting along the edges.','1 · 2 · 5'],
+  ['courtyard','Glass onto the courtyard','Black-framed glass on the rooms that face in. The rest stays solid.','2 · 4'],
+  ['cover','A covered courtyard that breathes','Timber louvers over glass, lifted 2 ft so hot air escapes.','3'],
+  ['lightwell','Small light wells','Extra voids so inner rooms get light without facing a neighbour.','5'],
+  ['back','The setback as a garden','The 5 ft back strip planted, with a white louver screen above the wall.','6'],
+  ['terrace','Low front, sun in winter','The office stays one storey so December sun reaches the courtyard.','plan'],
+  ['overview','Overview','The whole house from above.','']
+];
+const list=document.getElementById('ideas');
+ideas.forEach(([v,t,d,src],i)=>{const li=document.createElement('li');const b=document.createElement('button');b.className='idea';b.id='idea'+i;
+  b.innerHTML=`<b>${t}</b><span>${d}</span><small>${src?(src==='plan'?'from plan':'img '+src):''}</small>`;
+  b.onclick=()=>{document.querySelectorAll('.idea').forEach(x=>x.removeAttribute('aria-current'));b.setAttribute('aria-current','true');go(v);};
+  li.appendChild(b);list.appendChild(li);});
+
+let tween=null;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function go(name){
+  const v=views[name];
+  if(v.season){setSeason(v.season);hour=v.hour;document.getElementById('t').value=hour;updateSun();}
+  if(name==='courtyard'||name==='back'){setToggle('upper',true);}
+  const p=new THREE.Vector3(...v.p),t=new THREE.Vector3(...v.t);
+  if(reduce){camera.position.copy(p);controls.target.copy(t);return;}
+  tween={p0:camera.position.clone(),t0:controls.target.clone(),p,t,s:performance.now()};
+}
+
+/* ---------- controls ---------- */
+function setSeason(s){season=s;document.getElementById('summer').setAttribute('aria-pressed',s==='summer');document.getElementById('winter').setAttribute('aria-pressed',s==='winter');updateSun();}
+function setToggle(id,on){document.getElementById(id).setAttribute('aria-pressed',on);(id==='upper'?upperGroup:coverGroup).visible=on;}
+document.getElementById('summer').onclick=()=>setSeason('summer');
+document.getElementById('winter').onclick=()=>setSeason('winter');
+document.getElementById('t').oninput=e=>{hour=+e.target.value;updateSun();};
+['upper','cover'].forEach(id=>document.getElementById(id).onclick=e=>setToggle(id,e.currentTarget.getAttribute('aria-pressed')!=='true'));
+
+function resize(){const r=canvas.parentElement.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
+new ResizeObserver(resize).observe(canvas.parentElement);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',applyTheme);
+new MutationObserver(applyTheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+applyTheme();updateSun();
+camera.position.set(...views.overview.p);controls.target.set(...views.overview.t);resize();
+function loop(now){
+  if(tween){const k=Math.min(1,(now-tween.s)/1100),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    camera.position.lerpVectors(tween.p0,tween.p,e);controls.target.lerpVectors(tween.t0,tween.t,e);if(k>=1)tween=null;}
+  controls.update();renderer.render(scene,camera);requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+})();
+</script>
+
+</body></html>

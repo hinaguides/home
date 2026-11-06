@@ -1,0 +1,554 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ground Floor Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: drawing sheet. Title strip, the plan at full width (scrolls sideways on phones), then the room schedule and the drawing basis. */
+:root{
+  --paper:#ECEDE8; --sheet:#F6F6F2; --ink:#20262A; --muted:#5D666B; --line:#C9CDC7; --accent:#B4553A; --dimc:#3E6A86;
+  --poche:#2B3134; --site:#E3E6DF; --pave:#DADDD5; --hatch:#B8BDB5; --win:#DCEBF2;
+  --rm-public:#FBFAF6; --rm-private:#EEF2F6; --rm-staff:#F1F0EA; --court:#DDE7D6; --court-line:#BFCDB6; --tree:#9DB98F; --furn:#7D878C;
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#15191B; --sheet:#1C2124; --ink:#E4E8EA; --muted:#98A2A7; --line:#363D41; --accent:#E08A6E; --dimc:#8DB7D3;
+  --poche:#C9CFD2; --site:#20262A; --pave:#262C30; --hatch:#3A4246; --win:#2D4652;
+  --rm-public:#1A1F22; --rm-private:#1E2530; --rm-staff:#22262A; --court:#22302A; --court-line:#33463A; --tree:#4E6B47; --furn:#7F8A90; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#15191B; --sheet:#1C2124; --ink:#E4E8EA; --muted:#98A2A7; --line:#363D41; --accent:#E08A6E; --dimc:#8DB7D3;
+  --poche:#C9CFD2; --site:#20262A; --pave:#262C30; --hatch:#3A4246; --win:#2D4652;
+  --rm-public:#1A1F22; --rm-private:#1E2530; --rm-staff:#22262A; --court:#22302A; --court-line:#33463A; --tree:#4E6B47; --furn:#7F8A90; color-scheme:dark}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-block:26px 44px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:10px 24px;border-bottom:2px solid var(--ink);padding-bottom:12px}
+h1{margin:0;font-size:clamp(24px,3.6vw,32px);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.sub{margin:2px 0 0;color:var(--muted);max-width:60ch}
+.meta{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right;line-height:1.7}
+.meta b{color:var(--ink);font-weight:500}
+.sheet{background:var(--sheet);border:1px solid var(--line);border-radius:6px;overflow-x:auto}
+.sheet svg{display:block;width:100%;min-width:760px;height:auto}
+.keys{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--muted);margin:0;padding:0;list-style:none}
+.keys li{display:flex;align-items:center;gap:7px}
+.k{display:inline-block;width:22px;height:10px;border:1px solid var(--line)}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:0}
+@media (max-width:680px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.facts div{background:var(--sheet);padding:12px 14px}
+.facts dt{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.facts dd{margin:2px 0 0;font-family:var(--mono);font-size:17px;font-variant-numeric:tabular-nums}
+.cols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:820px){.cols{grid-template-columns:1fr}}
+h2{font-size:13px;letter-spacing:.07em;text-transform:uppercase;font-weight:600;margin:0 0 8px;color:var(--muted)}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-weight:500;font-size:12px;color:var(--muted);border-bottom:1px solid var(--ink);padding:6px 8px 6px 0}
+td{border-bottom:1px solid var(--line);padding:6px 8px 6px 0;vertical-align:top}
+td:nth-child(2){font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.num{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sw{display:inline-block;width:10px;height:10px;border:1px solid var(--line);margin-right:8px;vertical-align:-1px}
+.z-public{background:var(--rm-public)} .z-private{background:var(--rm-private)} .z-staff,.z-service{background:var(--rm-staff)} .z-court{background:var(--court)}
+.basis{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:7px;font-size:14px}
+.basis li::marker{color:var(--muted)}
+.note{font-size:13px;color:var(--muted);margin:8px 0 0}
+.flag{color:var(--accent);font-weight:500}
+svg .rn{font-size:1.0px;font-weight:600;text-anchor:middle;fill:var(--ink);letter-spacing:.02px}
+svg .rn.big{font-size:1.3px} svg .rn.sm{font-size:.68px;font-weight:500}
+svg .rd{font-size:.62px;font-family:var(--mono);text-anchor:middle;fill:var(--muted)} svg .rd.sm{font-size:.48px}
+svg .edge{font-size:.78px;font-family:var(--mono);text-anchor:middle;fill:var(--muted)}
+svg .en{font-weight:600;fill:var(--accent)}
+svg .dim{font-size:.72px;font-family:var(--mono);text-anchor:middle;fill:var(--dimc)}
+svg .dl{stroke:var(--dimc);stroke-width:.05} svg .dt{stroke:var(--dimc);stroke-width:.1} svg .dx{stroke:var(--dimc);stroke-width:.03}
+svg .fx{font-size:.55px;text-anchor:middle;fill:var(--furn);font-family:var(--mono)} svg .fx.b{fill:var(--ink);font-weight:600}
+svg .lane{font-size:.7px;text-anchor:middle;fill:var(--muted);font-family:var(--mono)}
+svg .nn{font-size:1.2px;font-weight:600;text-anchor:middle;fill:var(--ink)}
+svg .sc{font-size:.65px;font-family:var(--mono);text-anchor:middle;fill:var(--muted)}
+</style>
+
+<main class="wrap">
+  <header>
+    <div>
+      <h1>Ground floor plan</h1>
+      <p class="sub">Courtyard house on plots 1 and 3, New City Wah. Public floor: family lounge, parents' suite, guest room, drawing room, staff quarter.</p>
+    </div>
+    <div class="meta"><b>Drawing GF-01</b> · concept, rev A<br>Sizes in feet (width × depth) · scale bar on sheet<br>4 November 2026</div>
+  </header>
+
+  <div class="sheet"><svg viewBox="-9 -12.5 102 74" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pt pd" font-family="var(--sans)">
+<title id="pt">Ground floor plan</title>
+<desc id="pd">Ground floor plan of the courtyard house on the joined 14 marla plot, drawn to scale in feet with 9 inch external walls and 4.5 inch partitions.</desc>
+<defs>
+<pattern id="hatch" width="1" height="1" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="1" height="1" fill="var(--site)"/><line x1="0" y1="0" x2="0" y2="1" stroke="var(--hatch)" stroke-width=".08"/></pattern>
+<marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--ink)" stroke-width="1.6"/></marker>
+<marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M0 1L10 5L0 9Z" fill="var(--dimc)"/></marker>
+</defs>
+<path d="M0.000,0.000 L83.200,0.000 L71.307,52.346 L64.398,56.252 L39.800,49.920 L19.076,44.585 L12.596,38.765 L0.000,0.000Z " fill="var(--site)"/>
+<path d="M83.200,0.000 L0.000,0.000 L1.625,5.000 L82.064,5.000 L83.200,0.000Z " fill="url(#hatch)"/>
+<path d="M7.958,24.492 L1.625,5.000 L1.625,5.000 L0.000,0.000 L7.958,24.492Z M76.041,31.511 L82.064,5.000 L82.064,5.000 L76.041,31.511Z M19.076,44.585 L39.800,49.920 L64.398,56.252 L71.307,52.346 L72.303,47.961 L10.406,32.027 L12.596,38.765 L19.076,44.585Z " fill="var(--pave)"/>
+<path d="M19.440,43.904 L13.247,38.342 L11.267,32.249 L10.406,32.027 L12.596,38.765 L19.076,44.585 L21.013,45.084 L21.199,44.357 L19.440,43.904Z M41.440,49.568 L39.987,49.194 L38.631,48.845 L38.444,49.571 L39.800,49.920 L41.253,50.294 L41.440,49.568Z M71.307,52.346 L72.303,47.961 L71.577,47.774 L70.649,51.856 L64.292,55.450 L63.229,55.177 L63.042,55.903 L64.398,56.252 L71.307,52.346Z M58.871,54.055 L58.684,54.781 L59.653,55.031 L59.840,54.304 L58.871,54.055Z M1.625,5.000 L2.413,5.000 L1.032,0.750 L82.260,0.750 L81.295,5.000 L82.064,5.000 L76.041,31.511 L83.200,0.000 L0.000,0.000 L7.958,24.492 L1.625,5.000Z " fill="var(--poche)"/>
+<line x1="21.01" y1="45.08" x2="38.44" y2="49.57" stroke="var(--ink)" stroke-width=".12" stroke-dasharray=".5 .3"/>
+<line x1="41.25" y1="50.29" x2="58.68" y2="54.78" stroke="var(--ink)" stroke-width=".12" stroke-dasharray=".5 .3"/>
+<line x1="59.65" y1="55.03" x2="63.04" y2="55.90" stroke="var(--ink)" stroke-width=".12" stroke-dasharray=".5 .3"/>
+<path d="M38.246,41.517 L36.675,47.618 L21.568,43.729 L23.138,37.628 L38.246,41.517Z " fill="none" stroke="var(--furn)" stroke-width=".1" stroke-dasharray=".6 .35"/>
+<path d="M61.972,47.625 L60.402,53.726 L45.294,49.837 L46.865,43.736 L61.972,47.625Z " fill="none" stroke="var(--furn)" stroke-width=".1" stroke-dasharray=".6 .35"/>
+<path d="M82.064,5.000 L1.625,5.000 L10.406,32.027 L72.303,47.961 L82.064,5.000Z " fill="var(--poche)"/>
+<path d="M17.500,19.750 L17.500,5.750 L2.657,5.750 L7.206,19.750 L17.500,19.750Z " fill="var(--rm-staff)" data-room="Kitchen"/>
+<path d="M25.750,5.750 L25.750,16.750 L18.250,16.750 L18.250,5.750 L25.750,5.750Z " fill="var(--rm-staff)" data-room="Stair"/>
+<path d="M55.600,19.750 L55.600,5.750 L26.500,5.750 L26.500,16.750 L18.250,16.750 L18.250,19.750 L26.500,19.750 L55.600,19.750Z " fill="var(--rm-public)" data-room="Lounge + dining"/>
+<path d="M69.350,5.750 L69.350,19.750 L56.350,19.750 L56.350,5.750 L69.350,5.750Z " fill="var(--rm-private)" data-room="Parents&#x27; bedroom"/>
+<path d="M69.725,13.250 L79.421,13.250 L81.124,5.750 L69.725,5.750 L69.725,13.250Z " fill="var(--rm-private)" data-room="Bath"/>
+<path d="M69.725,13.625 L69.725,19.750 L77.944,19.750 L79.335,13.625 L69.725,13.625Z " fill="var(--rm-private)" data-room="Dress"/>
+<path d="M18.000,20.500 L7.449,20.500 L10.992,31.404 L18.000,33.208 L18.000,20.500Z " fill="var(--rm-staff)" data-room="Staff room"/>
+<path d="M23.375,20.500 L23.375,27.500 L18.375,27.500 L18.375,20.500 L23.375,20.500Z " fill="var(--rm-staff)" data-room="Staff bath"/>
+<path d="M23.375,27.875 L18.375,27.875 L18.375,33.304 L23.375,34.591 L23.375,27.875Z " fill="var(--rm-staff)" data-room="Store"/>
+<path d="M61.250,20.500 L38.250,20.500 L24.125,20.500 L24.125,29.250 L24.125,34.784 L38.250,38.421 L38.250,29.250 L61.250,29.250 L61.250,20.500Z " fill="var(--court)" data-room="Courtyard"/>
+<path d="M46.250,30.000 L39.000,30.000 L39.000,38.614 L46.250,40.480 L46.250,30.000Z " fill="var(--rm-public)" data-room="Foyer"/>
+<path d="M61.250,30.000 L47.000,30.000 L47.000,40.673 L61.250,44.341 L61.250,30.000Z " fill="var(--rm-public)" data-room="Drawing room"/>
+<path d="M62.000,20.500 L62.000,33.000 L74.933,33.000 L77.773,20.500 L62.000,20.500Z " fill="var(--rm-public)" data-room="Guest room"/>
+<path d="M66.500,33.375 L66.500,37.000 L62.000,37.000 L62.000,33.375 L66.500,33.375Z " fill="var(--rm-public)" data-room="Wardrobe"/>
+<path d="M66.875,33.375 L66.875,40.375 L73.258,40.375 L74.848,33.375 L66.875,33.375Z " fill="var(--rm-public)" data-room="Guest bath"/>
+<path d="M66.500,37.375 L62.000,37.375 L62.000,44.534 L66.500,45.693 L66.500,37.375Z " fill="var(--rm-public)" data-room="Powder"/>
+<path d="M66.875,40.750 L66.875,45.789 L71.743,47.042 L73.173,40.750 L66.875,40.750Z " fill="var(--rm-staff)" data-room="Meter store"/>
+<line x1="26.00" y1="20.65" x2="26.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="22.00" x2="26.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="24.00" x2="26.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="26.00" x2="26.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="28.00" x2="26.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="30.00" x2="26.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="32.00" x2="26.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="34.00" x2="26.00" y2="35.11" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="20.65" x2="28.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="22.00" x2="28.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="24.00" x2="28.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="26.00" x2="28.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="28.00" x2="28.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="30.00" x2="28.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="32.00" x2="28.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="34.00" x2="28.00" y2="35.63" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="20.65" x2="30.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="22.00" x2="30.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="24.00" x2="30.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="26.00" x2="30.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="28.00" x2="30.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="30.00" x2="30.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="32.00" x2="30.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="34.00" x2="30.00" y2="36.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="36.00" x2="30.00" y2="36.14" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="20.65" x2="32.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="22.00" x2="32.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="24.00" x2="32.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="26.00" x2="32.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="28.00" x2="32.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="30.00" x2="32.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="32.00" x2="32.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="34.00" x2="32.00" y2="36.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="36.00" x2="32.00" y2="36.66" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="20.65" x2="34.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="22.00" x2="34.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="24.00" x2="34.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="26.00" x2="34.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="28.00" x2="34.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="30.00" x2="34.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="32.00" x2="34.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="34.00" x2="34.00" y2="36.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="36.00" x2="34.00" y2="37.17" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="20.65" x2="36.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="22.00" x2="36.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="24.00" x2="36.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="26.00" x2="36.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="28.00" x2="36.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="30.00" x2="36.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="32.00" x2="36.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="34.00" x2="36.00" y2="36.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="36.00" x2="36.00" y2="37.69" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="20.65" x2="38.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="22.00" x2="38.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="24.00" x2="38.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="26.00" x2="38.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="28.00" x2="38.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="30.00" x2="38.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="32.00" x2="38.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="34.00" x2="38.00" y2="36.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="36.00" x2="38.00" y2="38.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="38.00" x2="38.00" y2="38.20" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="40.00" y1="20.65" x2="40.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="40.00" y1="22.00" x2="40.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="40.00" y1="24.00" x2="40.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="40.00" y1="26.00" x2="40.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="40.00" y1="28.00" x2="40.00" y2="29.10" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="42.00" y1="20.65" x2="42.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="42.00" y1="22.00" x2="42.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="42.00" y1="24.00" x2="42.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="42.00" y1="26.00" x2="42.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="42.00" y1="28.00" x2="42.00" y2="29.10" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="44.00" y1="20.65" x2="44.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="44.00" y1="22.00" x2="44.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="44.00" y1="24.00" x2="44.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="44.00" y1="26.00" x2="44.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="44.00" y1="28.00" x2="44.00" y2="29.10" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="46.00" y1="20.65" x2="46.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="46.00" y1="22.00" x2="46.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="46.00" y1="24.00" x2="46.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="46.00" y1="26.00" x2="46.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="46.00" y1="28.00" x2="46.00" y2="29.10" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="48.00" y1="20.65" x2="48.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="48.00" y1="22.00" x2="48.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="48.00" y1="24.00" x2="48.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="48.00" y1="26.00" x2="48.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="48.00" y1="28.00" x2="48.00" y2="29.10" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="50.00" y1="20.65" x2="50.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="50.00" y1="22.00" x2="50.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="50.00" y1="24.00" x2="50.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="50.00" y1="26.00" x2="50.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="50.00" y1="28.00" x2="50.00" y2="29.10" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="52.00" y1="20.65" x2="52.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="52.00" y1="22.00" x2="52.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="52.00" y1="24.00" x2="52.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="52.00" y1="26.00" x2="52.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="52.00" y1="28.00" x2="52.00" y2="29.10" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="54.00" y1="20.65" x2="54.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="54.00" y1="22.00" x2="54.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="54.00" y1="24.00" x2="54.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="54.00" y1="26.00" x2="54.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="54.00" y1="28.00" x2="54.00" y2="29.10" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="56.00" y1="20.65" x2="56.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="56.00" y1="22.00" x2="56.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="56.00" y1="24.00" x2="56.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="56.00" y1="26.00" x2="56.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="56.00" y1="28.00" x2="56.00" y2="29.10" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="58.00" y1="20.65" x2="58.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="58.00" y1="22.00" x2="58.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="58.00" y1="24.00" x2="58.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="58.00" y1="26.00" x2="58.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="58.00" y1="28.00" x2="58.00" y2="29.10" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="60.00" y1="20.65" x2="60.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="60.00" y1="22.00" x2="60.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="60.00" y1="24.00" x2="60.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="60.00" y1="26.00" x2="60.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="60.00" y1="28.00" x2="60.00" y2="29.10" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="24.27" y1="22.00" x2="26.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="22.00" x2="28.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="22.00" x2="30.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="22.00" x2="32.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="22.00" x2="34.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="22.00" x2="36.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="22.00" x2="38.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="22.00" x2="40.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="40.00" y1="22.00" x2="42.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="42.00" y1="22.00" x2="44.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="44.00" y1="22.00" x2="46.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="46.00" y1="22.00" x2="48.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="48.00" y1="22.00" x2="50.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="50.00" y1="22.00" x2="52.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="52.00" y1="22.00" x2="54.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="54.00" y1="22.00" x2="56.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="56.00" y1="22.00" x2="58.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="58.00" y1="22.00" x2="60.00" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="60.00" y1="22.00" x2="61.10" y2="22.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="24.27" y1="24.00" x2="26.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="24.00" x2="28.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="24.00" x2="30.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="24.00" x2="32.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="24.00" x2="34.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="24.00" x2="36.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="24.00" x2="38.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="24.00" x2="40.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="40.00" y1="24.00" x2="42.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="42.00" y1="24.00" x2="44.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="44.00" y1="24.00" x2="46.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="46.00" y1="24.00" x2="48.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="48.00" y1="24.00" x2="50.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="50.00" y1="24.00" x2="52.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="52.00" y1="24.00" x2="54.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="54.00" y1="24.00" x2="56.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="56.00" y1="24.00" x2="58.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="58.00" y1="24.00" x2="60.00" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="60.00" y1="24.00" x2="61.10" y2="24.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="24.27" y1="26.00" x2="26.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="26.00" x2="28.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="26.00" x2="30.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="26.00" x2="32.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="26.00" x2="34.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="26.00" x2="36.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="26.00" x2="38.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="26.00" x2="40.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="40.00" y1="26.00" x2="42.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="42.00" y1="26.00" x2="44.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="44.00" y1="26.00" x2="46.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="46.00" y1="26.00" x2="48.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="48.00" y1="26.00" x2="50.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="50.00" y1="26.00" x2="52.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="52.00" y1="26.00" x2="54.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="54.00" y1="26.00" x2="56.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="56.00" y1="26.00" x2="58.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="58.00" y1="26.00" x2="60.00" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="60.00" y1="26.00" x2="61.10" y2="26.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="24.27" y1="28.00" x2="26.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="28.00" x2="28.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="28.00" x2="30.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="28.00" x2="32.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="28.00" x2="34.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="28.00" x2="36.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="28.00" x2="38.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="28.00" x2="40.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="40.00" y1="28.00" x2="42.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="42.00" y1="28.00" x2="44.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="44.00" y1="28.00" x2="46.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="46.00" y1="28.00" x2="48.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="48.00" y1="28.00" x2="50.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="50.00" y1="28.00" x2="52.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="52.00" y1="28.00" x2="54.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="54.00" y1="28.00" x2="56.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="56.00" y1="28.00" x2="58.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="58.00" y1="28.00" x2="60.00" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="60.00" y1="28.00" x2="61.10" y2="28.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="24.27" y1="30.00" x2="26.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="30.00" x2="28.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="30.00" x2="30.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="30.00" x2="32.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="30.00" x2="34.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="30.00" x2="36.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="30.00" x2="38.00" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="30.00" x2="38.10" y2="30.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="24.27" y1="32.00" x2="26.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="32.00" x2="28.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="32.00" x2="30.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="32.00" x2="32.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="32.00" x2="34.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="32.00" x2="36.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="32.00" x2="38.00" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="32.00" x2="38.10" y2="32.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="24.27" y1="34.00" x2="26.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="26.00" y1="34.00" x2="28.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="28.00" y1="34.00" x2="30.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="34.00" x2="32.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="34.00" x2="34.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="34.00" x2="36.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="34.00" x2="38.00" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="34.00" x2="38.10" y2="34.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="29.45" y1="36.00" x2="30.00" y2="36.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="30.00" y1="36.00" x2="32.00" y2="36.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="32.00" y1="36.00" x2="34.00" y2="36.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="34.00" y1="36.00" x2="36.00" y2="36.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="36.00" y1="36.00" x2="38.00" y2="36.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="36.00" x2="38.10" y2="36.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="37.22" y1="38.00" x2="38.00" y2="38.00" stroke="var(--court-line)" stroke-width=".05"/>
+<line x1="38.00" y1="38.00" x2="38.10" y2="38.00" stroke="var(--court-line)" stroke-width=".05"/>
+<path d="M45.905,40.370 L42.405,39.469 L42.208,40.235 L45.708,41.136 L45.905,40.370Z " fill="var(--rm-public)"/>
+<line x1="45.900" y1="40.390" x2="46.801" y2="36.890" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M42.400,39.489 A3.614,3.614 0 0 1 46.801,36.890" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M39.020,34.000 L39.020,31.000 L38.230,31.000 L38.230,34.000 L39.020,34.000Z " fill="var(--rm-public)"/>
+<line x1="39.000" y1="34.000" x2="42.000" y2="34.000" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M39.000,31.000 A3.000,3.000 0 0 1 42.000,34.000" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M47.020,31.000 L47.020,34.000 L46.230,34.000 L46.230,31.000 L47.020,31.000Z " fill="var(--rm-public)"/>
+<line x1="47.000" y1="31.000" x2="50.000" y2="31.000" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M47.000,34.000 A3.000,3.000 0 0 0 50.000,31.000" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M62.020,44.000 L62.020,41.800 L61.230,41.800 L61.230,44.000 L62.020,44.000Z " fill="var(--rm-public)"/>
+<line x1="62.000" y1="44.000" x2="64.200" y2="44.000" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M62.000,41.800 A2.200,2.200 0 0 1 64.200,44.000" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M62.020,22.000 L62.020,25.000 L61.230,25.000 L61.230,22.000 L62.020,22.000Z " fill="var(--rm-public)"/>
+<line x1="62.000" y1="22.000" x2="65.000" y2="22.000" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M62.000,25.000 A3.000,3.000 0 0 0 65.000,22.000" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M62.500,33.395 L65.000,33.395 L65.000,32.980 L62.500,32.980 L62.500,33.395Z " fill="var(--rm-public)"/>
+<line x1="62.500" y1="33.375" x2="62.500" y2="35.875" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M65.000,33.375 A2.500,2.500 0 0 1 62.500,35.875" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M70.500,33.395 L68.000,33.395 L68.000,32.980 L70.500,32.980 L70.500,33.395Z " fill="var(--rm-public)"/>
+<line x1="70.500" y1="33.375" x2="70.500" y2="35.875" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M68.000,33.375 A2.500,2.500 0 0 0 70.500,35.875" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M70.505,46.703 L68.205,46.111 L68.008,46.876 L70.308,47.468 L70.505,46.703Z " fill="var(--rm-staff)"/>
+<line x1="70.500" y1="46.722" x2="71.092" y2="44.422" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M68.200,46.130 A2.375,2.375 0 0 1 71.092,44.422" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M56.370,18.000 L56.370,15.000 L55.580,15.000 L55.580,18.000 L56.370,18.000Z " fill="var(--rm-private)"/>
+<line x1="56.350" y1="18.000" x2="59.350" y2="18.000" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M56.350,15.000 A3.000,3.000 0 0 1 59.350,18.000" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M69.745,9.500 L69.745,7.000 L69.330,7.000 L69.330,9.500 L69.745,9.500Z " fill="var(--rm-private)"/>
+<line x1="69.725" y1="9.500" x2="72.225" y2="9.500" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M69.725,7.000 A2.500,2.500 0 0 1 72.225,9.500" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M69.745,15.000 L69.745,17.750 L69.330,17.750 L69.330,15.000 L69.745,15.000Z " fill="var(--rm-private)"/>
+<path d="M17.480,19.550 L17.480,16.950 L18.270,16.950 L18.270,19.550 L17.480,19.550Z " fill="var(--rm-staff)"/>
+<line x1="17.500" y1="19.550" x2="14.900" y2="19.550" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M17.500,16.950 A2.600,2.600 0 0 0 14.900,19.550" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M9.000,5.770 L11.750,5.770 L11.750,4.980 L9.000,4.980 L9.000,5.770Z " fill="var(--rm-staff)"/>
+<line x1="9.000" y1="5.750" x2="9.000" y2="8.500" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M11.750,5.750 A2.750,2.750 0 0 1 9.000,8.500" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M9.500,20.520 L12.250,20.520 L12.250,19.730 L9.500,19.730 L9.500,20.520Z " fill="var(--rm-staff)"/>
+<line x1="9.500" y1="20.500" x2="9.500" y2="23.250" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M12.250,20.500 A2.750,2.750 0 0 1 9.500,23.250" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M18.395,23.500 L18.395,21.000 L17.980,21.000 L17.980,23.500 L18.395,23.500Z " fill="var(--rm-staff)"/>
+<line x1="18.375" y1="23.500" x2="20.875" y2="23.500" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M18.375,21.000 A2.500,2.500 0 0 1 20.875,23.500" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M18.395,28.500 L18.395,30.750 L17.980,30.750 L17.980,28.500 L18.395,28.500Z " fill="var(--rm-staff)"/>
+<line x1="18.375" y1="28.500" x2="20.625" y2="28.500" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M18.375,30.750 A2.250,2.250 0 0 0 20.625,28.500" fill="none" stroke="var(--ink)" stroke-width=".05" stroke-dasharray=".25 .2"/>
+<path d="M35.000,19.730 L43.000,19.730 L43.000,20.520 L35.000,20.520 L35.000,19.730Z " fill="var(--rm-public)"/>
+<line x1="35.000" y1="19.997" x2="39.480" y2="19.997" stroke="var(--ink)" stroke-width=".12"/>
+<line x1="38.520" y1="20.245" x2="43.000" y2="20.245" stroke="var(--ink)" stroke-width=".12"/>
+<path d="M28.000,19.730 L33.000,19.730 L33.000,20.520 L28.000,20.520 L28.000,19.730Z " fill="var(--win)"/>
+<line x1="28.000" y1="20.020" x2="33.000" y2="20.020" stroke="var(--ink)" stroke-width=".07"/>
+<line x1="28.000" y1="20.230" x2="33.000" y2="20.230" stroke="var(--ink)" stroke-width=".07"/>
+<path d="M45.500,19.730 L54.000,19.730 L54.000,20.520 L45.500,20.520 L45.500,19.730Z " fill="var(--win)"/>
+<line x1="45.500" y1="20.020" x2="54.000" y2="20.020" stroke="var(--ink)" stroke-width=".07"/>
+<line x1="45.500" y1="20.230" x2="54.000" y2="20.230" stroke="var(--ink)" stroke-width=".07"/>
+<path d="M57.250,19.730 L60.750,19.730 L60.750,20.520 L57.250,20.520 L57.250,19.730Z " fill="var(--win)"/>
+<line x1="57.250" y1="20.020" x2="60.750" y2="20.020" stroke="var(--ink)" stroke-width=".07"/>
+<line x1="57.250" y1="20.230" x2="60.750" y2="20.230" stroke="var(--ink)" stroke-width=".07"/>
+<path d="M62.020,25.750 L62.020,29.000 L61.230,29.000 L61.230,25.750 L62.020,25.750Z " fill="var(--win)"/>
+<line x1="61.730" y1="25.750" x2="61.730" y2="29.000" stroke="var(--ink)" stroke-width=".07"/>
+<line x1="61.520" y1="25.750" x2="61.520" y2="29.000" stroke="var(--ink)" stroke-width=".07"/>
+<path d="M12.000,5.770 L16.000,5.770 L16.000,4.980 L12.000,4.980 L12.000,5.770Z " fill="var(--win)"/>
+<line x1="12.000" y1="5.480" x2="16.000" y2="5.480" stroke="var(--ink)" stroke-width=".07"/>
+<line x1="12.000" y1="5.270" x2="16.000" y2="5.270" stroke="var(--ink)" stroke-width=".07"/>
+<path d="M19.500,5.770 L24.500,5.770 L24.500,4.980 L19.500,4.980 L19.500,5.770Z " fill="var(--win)"/>
+<line x1="19.500" y1="5.480" x2="24.500" y2="5.480" stroke="var(--ink)" stroke-width=".07"/>
+<line x1="19.500" y1="5.270" x2="24.500" y2="5.270" stroke="var(--ink)" stroke-width=".07"/>
+<path d="M30.000,5.770 L38.000,5.770 L38.000,4.980 L30.000,4.980 L30.000,5.770Z " fill="var(--win)"/>
+<line x1="30.000" y1="5.375" x2="38.000" y2="5.375" stroke="var(--ink)" stroke-width=".07" stroke-dasharray=".35 .25"/>
+<path d="M45.000,5.770 L53.000,5.770 L53.000,4.980 L45.000,4.980 L45.000,5.770Z " fill="var(--win)"/>
+<line x1="45.000" y1="5.375" x2="53.000" y2="5.375" stroke="var(--ink)" stroke-width=".07" stroke-dasharray=".35 .25"/>
+<path d="M59.500,5.770 L66.000,5.770 L66.000,4.980 L59.500,4.980 L59.500,5.770Z " fill="var(--win)"/>
+<line x1="59.500" y1="5.375" x2="66.000" y2="5.375" stroke="var(--ink)" stroke-width=".07" stroke-dasharray=".35 .25"/>
+<path d="M72.000,5.770 L75.000,5.770 L75.000,4.980 L72.000,4.980 L72.000,5.770Z " fill="var(--win)"/>
+<line x1="72.000" y1="5.375" x2="75.000" y2="5.375" stroke="var(--ink)" stroke-width=".07" stroke-dasharray=".35 .25"/>
+<path d="M8.281,22.994 L9.905,27.994 L9.154,28.238 L7.529,23.238 L8.281,22.994Z " fill="var(--win)"/>
+<line x1="7.905" y1="23.116" x2="9.530" y2="28.116" stroke="var(--ink)" stroke-width=".07" stroke-dasharray=".35 .25"/>
+<path d="M3.407,7.994 L4.869,12.494 L4.118,12.738 L2.656,8.238 L3.407,7.994Z " fill="var(--win)"/>
+<line x1="3.031" y1="8.116" x2="4.493" y2="12.616" stroke="var(--ink)" stroke-width=".07" stroke-dasharray=".35 .25"/>
+<path d="M76.959,23.996 L75.823,28.996 L76.593,29.171 L77.729,24.171 L76.959,23.996Z " fill="var(--win)"/>
+<line x1="77.344" y1="24.083" x2="76.208" y2="29.083" stroke="var(--ink)" stroke-width=".07" stroke-dasharray=".35 .25"/>
+<path d="M74.346,35.496 L73.778,37.996 L74.548,38.171 L75.116,35.671 L74.346,35.496Z " fill="var(--win)"/>
+<line x1="74.731" y1="35.583" x2="74.163" y2="38.083" stroke="var(--ink)" stroke-width=".07" stroke-dasharray=".35 .25"/>
+<path d="M50.005,41.426 L58.005,43.485 L57.808,44.250 L49.808,42.191 L50.005,41.426Z " fill="var(--win)"/>
+<line x1="49.907" y1="41.808" x2="57.907" y2="43.868" stroke="var(--ink)" stroke-width=".07" stroke-dasharray=".35 .25"/>
+<path d="M63.005,44.772 L65.505,45.416 L65.308,46.181 L62.808,45.537 L63.005,44.772Z " fill="var(--win)"/>
+<line x1="62.907" y1="45.155" x2="65.407" y2="45.799" stroke="var(--ink)" stroke-width=".07" stroke-dasharray=".35 .25"/>
+<g stroke="var(--ink)" stroke-width=".05"><line x1="18.25" y1="16.750" x2="21.75" y2="16.750"/><line x1="22.25" y1="16.750" x2="25.75" y2="16.750"/><line x1="18.25" y1="15.917" x2="21.75" y2="15.917"/><line x1="22.25" y1="15.917" x2="25.75" y2="15.917"/><line x1="18.25" y1="15.083" x2="21.75" y2="15.083"/><line x1="22.25" y1="15.083" x2="25.75" y2="15.083"/><line x1="18.25" y1="14.250" x2="21.75" y2="14.250"/><line x1="22.25" y1="14.250" x2="25.75" y2="14.250"/><line x1="18.25" y1="13.417" x2="21.75" y2="13.417"/><line x1="22.25" y1="13.417" x2="25.75" y2="13.417"/><line x1="18.25" y1="12.584" x2="21.75" y2="12.584"/><line x1="22.25" y1="12.584" x2="25.75" y2="12.584"/><line x1="18.25" y1="11.750" x2="21.75" y2="11.750"/><line x1="22.25" y1="11.750" x2="25.75" y2="11.750"/><line x1="18.25" y1="10.917" x2="21.75" y2="10.917"/><line x1="22.25" y1="10.917" x2="25.75" y2="10.917"/><line x1="18.25" y1="10.084" x2="21.75" y2="10.084"/><line x1="22.25" y1="10.084" x2="25.75" y2="10.084"/><line x1="18.25" y1="9.250" x2="21.75" y2="9.250"/><line x1="22.25" y1="9.250" x2="25.75" y2="9.250"/></g>
+<rect x="21.75" y="9.25" width=".5" height="7.5" fill="var(--poche)"/>
+<line x1="18.25" y1="9.25" x2="25.75" y2="9.25" stroke="var(--ink)" stroke-width=".06"/>
+<polyline points="20.00,16.45 20.00,7.35 24.00,7.35 24.00,11.55" fill="none" stroke="var(--ink)" stroke-width=".08" marker-end="url(#ar)"/>
+<line x1="22.25" y1="12.75" x2="25.75" y2="11.75" stroke="var(--ink)" stroke-width=".08"/>
+<text x="20.00" y="15.45" class="fx b">UP</text>
+<g fill="none" stroke="var(--furn)" stroke-width=".08"><rect x="59.6" y="5.75" width="6.5" height="7.0" rx="0.2"/><rect x="59.6" y="5.75" width="6.5" height="1.6" rx="0.2"/><rect x="58.0" y="5.75" width="1.5" height="1.5" rx="0"/><rect x="66.2" y="5.75" width="1.5" height="1.5" rx="0"/><g transform="translate(77.8 5.75) rotate(0)"><rect x="-.9" y="0" width="1.8" height=".6" rx=".1"/><ellipse cx="0" cy="1.5" rx=".75" ry=".95"/></g><g transform="translate(73.0 5.75) rotate(0)"><rect x="-1" y="0" width="2" height="1.5" rx=".2"/><ellipse cx="0" cy=".8" rx=".6" ry=".45"/></g><rect x="70.0" y="9.6" width="3.4" height="3.4" rx="0"/><line x1="70.0" y1="9.6" x2="73.4" y2="13.0"/><line x1="73.4" y1="9.6" x2="70.0" y2="13.0"/><rect x="69.9" y="13.8" width="7.0" height="1.6" rx="0"/><rect x="28.5" y="9.3" width="6.0" height="3.6" rx="0.25"/><rect x="29.2" y="8.2" width="1.4" height="1.0" rx="0.2"/><rect x="29.2" y="13.0" width="1.4" height="1.0" rx="0.2"/><rect x="31.2" y="8.2" width="1.4" height="1.0" rx="0.2"/><rect x="31.2" y="13.0" width="1.4" height="1.0" rx="0.2"/><rect x="33.2" y="8.2" width="1.4" height="1.0" rx="0.2"/><rect x="33.2" y="13.0" width="1.4" height="1.0" rx="0.2"/><rect x="26.9" y="10.4" width="1.0" height="1.4" rx="0.2"/><rect x="34.6" y="10.4" width="1.0" height="1.4" rx="0.2"/><rect x="42.0" y="6.05" width="10.5" height="2.8" rx="0.4"/><rect x="52.5" y="6.05" width="2.8" height="8.0" rx="0.4"/><rect x="44.5" y="10.0" width="4.5" height="2.4" rx="0.2"/><polygon points="2.66,5.75 17.5,5.75 17.5,7.75 3.31,7.75"/><rect x="15.5" y="7.75" width="2.0" height="8.0" rx="0"/><rect x="12.7" y="6.05" width="2.6" height="1.4" rx="0.3"/><circle cx="9.0" cy="6.75" r="0.35"/><circle cx="10.2" cy="6.75" r="0.35"/><rect x="15.6" y="15.0" width="1.8" height="2.4" rx="0"/><rect x="14.6" y="20.7" width="3.2" height="6.5" rx="0.2"/><rect x="14.6" y="20.7" width="3.2" height="1.1" rx="0.2"/><g transform="translate(22.4 20.5) rotate(0)"><rect x="-.9" y="0" width="1.8" height=".6" rx=".1"/><ellipse cx="0" cy="1.5" rx=".75" ry=".95"/></g><g transform="translate(19.6 20.5) rotate(0)"><rect x="-1" y="0" width="2" height="1.5" rx=".2"/><ellipse cx="0" cy=".8" rx=".6" ry=".45"/></g><rect x="67.5" y="20.5" width="5.0" height="6.5" rx="0.2"/><rect x="67.5" y="20.5" width="5.0" height="1.4" rx="0.2"/><rect x="66.0" y="20.5" width="1.3" height="1.3" rx="0"/><rect x="72.7" y="20.5" width="1.3" height="1.3" rx="0"/><g transform="translate(72.0 33.375) rotate(0)"><rect x="-.9" y="0" width="1.8" height=".6" rx=".1"/><ellipse cx="0" cy="1.5" rx=".75" ry=".95"/></g><g transform="translate(68.4 33.375) rotate(0)"><rect x="-1" y="0" width="2" height="1.5" rx=".2"/><ellipse cx="0" cy=".8" rx=".6" ry=".45"/></g><rect x="67.1" y="37.0" width="3.2" height="3.2" rx="0"/><line x1="67.1" y1="37.0" x2="70.3" y2="40.2"/><line x1="70.3" y1="37.0" x2="67.1" y2="40.2"/><rect x="62.2" y="33.6" width="4.1" height="1.8" rx="0"/><g transform="translate(66.5 43.5) rotate(90)"><rect x="-.9" y="0" width="1.8" height=".6" rx=".1"/><ellipse cx="0" cy="1.5" rx=".75" ry=".95"/></g><g transform="translate(64.25 37.375) rotate(0)"><rect x="-1" y="0" width="2" height="1.5" rx=".2"/><ellipse cx="0" cy=".8" rx=".6" ry=".45"/></g><rect x="50.5" y="30.2" width="8.0" height="2.6" rx="0.4"/><rect x="58.4" y="32.9" width="2.6" height="5.2" rx="0.4"/><rect x="52.0" y="34.0" width="5.0" height="2.4" rx="0.2"/></g>
+<circle cx="30.5" cy="29.0" r="5.2" fill="var(--tree)" opacity=".55"/><circle cx="30.5" cy="29.0" r=".45" fill="var(--furn)"/>
+<rect x="46.0" y="21.2" width="7.0" height="1.6" rx=".3" fill="none" stroke="var(--furn)" stroke-width=".08"/>
+<text x="11.00" y="12.80" class="rn">Kitchen</text>
+<text x="11.00" y="13.95" class="rd">~12½ × 14 ft · 176 sq ft</text>
+<text x="41.00" y="14.60" class="rn big">Lounge + dining</text>
+<text x="41.00" y="15.75" class="rd">29 × 14 ft + passage · 432 sq ft</text>
+<text x="63.60" y="15.40" class="rn">Parents&#x27; bedroom</text>
+<text x="63.60" y="16.55" class="rd">13 × 14 ft · 182 sq ft</text>
+<text x="76.00" y="11.60" class="rn">Attached bath</text>
+<text x="76.00" y="12.65" class="rd">~10½ × 7½ ft</text>
+<text x="76.00" y="13.45" class="rd">79 sq ft</text>
+<text x="73.60" y="16.40" class="rn sm">Dress</text>
+<text x="73.60" y="17.20" class="rd sm">~9 × 6 ft</text>
+<text x="73.60" y="17.85" class="rd sm">55 sq ft</text>
+<text x="13.80" y="30.60" class="rn">Staff room</text>
+<text x="13.80" y="31.65" class="rd">~8 × 12½ ft</text>
+<text x="13.80" y="32.45" class="rd">102 sq ft</text>
+<text x="20.90" y="25.40" class="rn sm">Staff bath</text>
+<text x="20.90" y="26.20" class="rd sm">5 × 7 ft</text>
+<text x="20.90" y="26.85" class="rd sm">35 sq ft</text>
+<text x="20.90" y="30.60" class="rn sm">Store</text>
+<text x="20.90" y="31.40" class="rd sm">~5 × 6 ft</text>
+<text x="20.90" y="32.05" class="rd sm">30 sq ft</text>
+<text x="42.00" y="25.50" class="rn big">Courtyard</text>
+<text x="42.00" y="26.65" class="rd">L-shaped · 429 sq ft</text>
+<text x="41.90" y="36.00" class="rn">Foyer</text>
+<text x="41.90" y="37.05" class="rd">~7 × 9½ ft</text>
+<text x="41.90" y="37.85" class="rd">69 sq ft</text>
+<text x="54.00" y="40.20" class="rn">Drawing room</text>
+<text x="54.00" y="41.35" class="rd">~14 × 12½ ft · 178 sq ft</text>
+<text x="69.50" y="29.00" class="rn">Guest room</text>
+<text x="69.50" y="30.15" class="rd">~14½ × 12½ ft · 179 sq ft</text>
+<text x="64.25" y="36.40" class="rn sm">Wardrobe</text>
+<text x="71.90" y="38.80" class="rn sm">Bath</text>
+<text x="71.90" y="39.60" class="rd sm">~7 × 7 ft</text>
+<text x="71.90" y="40.25" class="rd sm">50 sq ft</text>
+<text x="64.30" y="40.10" class="rn sm">Powder</text>
+<text x="64.30" y="40.90" class="rd sm">~4½ × 7½ ft</text>
+<text x="64.30" y="41.55" class="rd sm">35 sq ft</text>
+<text x="70.10" y="42.60" class="rn sm">Meter store</text>
+<text x="70.10" y="43.40" class="rd sm">~5 × 6½ ft</text>
+<text x="70.10" y="44.05" class="rd sm">32 sq ft</text>
+<text x="42" y="2.9" class="lane">Service lane · 5 ft back setback</text>
+<g transform="rotate(14.44 40.6 46.2)"><text x="40.6" y="46.2" class="lane">Forecourt</text><text x="40.6" y="47.1" class="lane">2 cars, parallel</text></g>
+<path d="M0.000,0.000 L83.200,0.000 L71.307,52.346 L64.398,56.252 L39.800,49.920 L19.076,44.585 L12.596,38.765 L0.000,0.000Z " fill="none" stroke="var(--accent)" stroke-width=".16" stroke-dasharray="1.6 .4 .3 .4"/>
+<text x="19.90" y="-2.05" class="edge" transform="rotate(0.00 19.90 -2.40)"><tspan class="en">B1</tspan> 39.80'</text>
+<text x="61.50" y="-2.05" class="edge" transform="rotate(0.00 61.50 -2.40)"><tspan class="en">B2</tspan> 43.40'</text>
+<text x="79.59" y="27.05" class="edge" transform="rotate(-77.20 79.59 26.70)"><tspan class="en">R1</tspan> 53.68'</text>
+<text x="68.79" y="56.30" class="edge" transform="rotate(-29.48 68.79 55.95)"><tspan class="en">C2</tspan> 7.94' calc.</text>
+<text x="51.50" y="55.76" class="edge" transform="rotate(14.44 51.50 55.41)"><tspan class="en">F2</tspan> 25.40'</text>
+<text x="28.84" y="49.93" class="edge" transform="rotate(14.44 28.84 49.58)"><tspan class="en">F1</tspan> 21.40'</text>
+<text x="14.57" y="43.44" class="edge" transform="rotate(41.93 14.57 43.09)"><tspan class="en">C1</tspan> 8.71'</text>
+<text x="4.02" y="20.47" class="edge" transform="rotate(72.00 4.02 20.12)"><tspan class="en">R2</tspan> 40.76'</text>
+<line x1="18.250" y1="-5.4" x2="25.750" y2="-5.4" class="dl"/><line x1="17.900" y1="-5.050000000000001" x2="18.600" y2="-5.75" class="dt"/><line x1="18.250" y1="-3.7" x2="18.250" y2="-5.9" class="dx"/><line x1="25.400" y1="-5.050000000000001" x2="26.100" y2="-5.75" class="dt"/><line x1="25.750" y1="-3.7" x2="25.750" y2="-5.9" class="dx"/><text x="22.000" y="-5.8500000000000005" class="dim">7½ ft</text>
+<line x1="26.500" y1="-5.4" x2="55.600" y2="-5.4" class="dl"/><line x1="26.150" y1="-5.050000000000001" x2="26.850" y2="-5.75" class="dt"/><line x1="26.500" y1="-3.7" x2="26.500" y2="-5.9" class="dx"/><line x1="55.250" y1="-5.050000000000001" x2="55.950" y2="-5.75" class="dt"/><line x1="55.600" y1="-3.7" x2="55.600" y2="-5.9" class="dx"/><text x="41.050" y="-5.8500000000000005" class="dim">29 ft</text>
+<line x1="56.350" y1="-5.4" x2="69.350" y2="-5.4" class="dl"/><line x1="56.000" y1="-5.050000000000001" x2="56.700" y2="-5.75" class="dt"/><line x1="56.350" y1="-3.7" x2="56.350" y2="-5.9" class="dx"/><line x1="69.000" y1="-5.050000000000001" x2="69.700" y2="-5.75" class="dt"/><line x1="69.350" y1="-3.7" x2="69.350" y2="-5.9" class="dx"/><text x="62.850" y="-5.8500000000000005" class="dim">13 ft</text>
+<line x1="1.620" y1="-8.0" x2="82.060" y2="-8.0" class="dl"/><line x1="1.270" y1="-7.65" x2="1.970" y2="-8.35" class="dt"/><line x1="1.620" y1="-5.6000000000000005" x2="1.620" y2="-8.5" class="dx"/><line x1="81.710" y1="-7.65" x2="82.410" y2="-8.35" class="dt"/><line x1="82.060" y1="-5.6000000000000005" x2="82.060" y2="-8.5" class="dx"/><text x="41.840" y="-8.45" class="dim">Building at back  80½ ft</text>
+<line x1="-4.2" y1="0.000" x2="-4.2" y2="5.000" class="dl"/><line x1="-4.55" y1="0.350" x2="-3.85" y2="-0.350" class="dt"/><line x1="-0.6" y1="0.000" x2="-3.7" y2="0.000" class="dx"/><line x1="-4.55" y1="5.350" x2="-3.85" y2="4.650" class="dt"/><line x1="-0.6" y1="5.000" x2="-3.7" y2="5.000" class="dx"/><text x="-4.65" y="2.500" class="dim" transform="rotate(-90 -4.65 2.500)">5 ft</text>
+<line x1="-4.2" y1="5.750" x2="-4.2" y2="19.750" class="dl"/><line x1="-4.55" y1="6.100" x2="-3.85" y2="5.400" class="dt"/><line x1="-0.6" y1="5.750" x2="-3.7" y2="5.750" class="dx"/><line x1="-4.55" y1="20.100" x2="-3.85" y2="19.400" class="dt"/><line x1="-0.6" y1="19.750" x2="-3.7" y2="19.750" class="dx"/><text x="-4.65" y="12.750" class="dim" transform="rotate(-90 -4.65 12.750)">14 ft</text>
+<line x1="-4.2" y1="20.500" x2="-4.2" y2="29.250" class="dl"/><line x1="-4.55" y1="20.850" x2="-3.85" y2="20.150" class="dt"/><line x1="-0.6" y1="20.500" x2="-3.7" y2="20.500" class="dx"/><line x1="-4.55" y1="29.600" x2="-3.85" y2="28.900" class="dt"/><line x1="-0.6" y1="29.250" x2="-3.7" y2="29.250" class="dx"/><text x="-4.65" y="24.875" class="dim" transform="rotate(-90 -4.65 24.875)">8¾ ft</text>
+<line x1="63.000" y1="55.892" x2="65.493" y2="46.208" class="dl" marker-start="url(#ar2)" marker-end="url(#ar2)"/>
+<text x="64.85" y="51.05" class="dim" text-anchor="start">10 ft</text>
+<g transform="translate(88 -6)"><circle r="2.6" fill="none" stroke="var(--line)" stroke-width=".08"/><g transform="rotate(61.5)"><path d="M0,-2.3 L.8,.6 L0,.1 L-.8,.6Z" fill="var(--ink)"/><text y="-2.9" class="nn">N</text></g></g>
+<g transform="translate(70 59.5)">
+<rect x="0" y="0" width="5" height=".5" fill="var(--ink)"/><rect x="5" y="0" width="5" height=".5" fill="none" stroke="var(--ink)" stroke-width=".06"/><rect x="10" y="0" width="10" height=".5" fill="var(--ink)"/>
+<text x="0" y="1.7" class="sc">0</text><text x="5" y="1.7" class="sc">5</text><text x="10" y="1.7" class="sc">10</text><text x="20" y="1.7" class="sc">20 ft</text>
+</g>
+</svg></div>
+
+  <ul class="keys">
+    <li><i class="k" style="background:var(--poche)"></i>Wall (9" outer and main, 4½" partitions)</li>
+    <li><i class="k" style="background:var(--win)"></i>Window (dashed: high window or vent)</li>
+    <li><i class="k" style="border:0;border-top:2px dashed var(--accent);height:0"></i>Plot boundary, with map lengths</li>
+    <li><i class="k" style="border:0;border-top:1px solid var(--dimc);height:0"></i>Dimension</li>
+  </ul>
+
+  <dl class="facts">
+    <div><dt>Plot area</dt><dd>3,486 sq ft</dd></div>
+    <div><dt>Buildable after setbacks</dt><dd>2,494 sq ft</dd></div>
+    <div><dt>Ground covered (with walls)</dt><dd>2,066 sq ft</dd></div>
+    <div><dt>Courtyard, open to sky</dt><dd>429 sq ft</dd></div>
+  </dl>
+
+  <div class="cols">
+    <section>
+      <h2>Room schedule (clear inside sizes, width × depth)</h2>
+      <div class="tbl"><table>
+        <thead><tr><th>Room</th><th>Size</th><th class="num">sq ft</th></tr></thead>
+        <tbody><tr><td><i class="sw z-service"></i>Kitchen</td><td>~12½ × 14 ft</td><td class="num">176</td></tr>
+<tr><td><i class="sw z-service"></i>Stair</td><td>7½ × 11 ft</td><td class="num">82</td></tr>
+<tr><td><i class="sw z-public"></i>Lounge + dining</td><td>29 × 14 ft + passage</td><td class="num">432</td></tr>
+<tr><td><i class="sw z-private"></i>Parents&#x27; bedroom</td><td>13 × 14 ft</td><td class="num">182</td></tr>
+<tr><td><i class="sw z-private"></i>Attached bath</td><td>~10½ × 7½ ft</td><td class="num">79</td></tr>
+<tr><td><i class="sw z-private"></i>Dress</td><td>~9 × 6 ft</td><td class="num">55</td></tr>
+<tr><td><i class="sw z-staff"></i>Staff room</td><td>~8 × 12½ ft</td><td class="num">102</td></tr>
+<tr><td><i class="sw z-staff"></i>Staff bath</td><td>5 × 7 ft</td><td class="num">35</td></tr>
+<tr><td><i class="sw z-staff"></i>Store</td><td>~5 × 6 ft</td><td class="num">30</td></tr>
+<tr><td><i class="sw z-court"></i>Courtyard</td><td>L-shaped</td><td class="num">429</td></tr>
+<tr><td><i class="sw z-public"></i>Foyer</td><td>~7 × 9½ ft</td><td class="num">69</td></tr>
+<tr><td><i class="sw z-public"></i>Drawing room</td><td>~14 × 12½ ft</td><td class="num">178</td></tr>
+<tr><td><i class="sw z-public"></i>Guest room</td><td>~14½ × 12½ ft</td><td class="num">179</td></tr>
+<tr><td><i class="sw z-public"></i>Wardrobe</td><td>4½ × 3½ ft</td><td class="num">16</td></tr>
+<tr><td><i class="sw z-public"></i>Bath</td><td>~7 × 7 ft</td><td class="num">50</td></tr>
+<tr><td><i class="sw z-public"></i>Powder</td><td>~4½ × 7½ ft</td><td class="num">35</td></tr>
+<tr><td><i class="sw z-service"></i>Meter store</td><td>~5 × 6½ ft</td><td class="num">32</td></tr></tbody>
+      </table></div>
+      <p class="note">~ means the room has one angled wall, so the size shown is its average.</p>
+    </section>
+    <section>
+      <h2>What this drawing is based on</h2>
+      <ol class="basis">
+        <li>Plot shape built from the society map's own numbers: B1 39.80, B2 43.40, R1 53.68, F2 25.40, F1 21.40, C1 8.71, R2 40.76 and the middle line 49.92 (square to the back). Edge angles were read off the map. C2 is not printed on the map; it works out to 7.94 ft.</li>
+        <li>Plot area 3,486 sq ft, which matches 14 marla at about 250 sq ft per marla (5 marla = 25 × 50).</li>
+        <li>Setbacks as you gave them: 10 ft front, 5 ft back. <span class="flag">Side roads (R1, R2) taken as zero; corner plots often need one, so confirm with New City.</span></li>
+        <li>Ground coverage here is 59% of the plot. <span class="flag">Check the society's maximum coverage.</span></li>
+        <li>Walls: 9" brick for outer and main walls, 4½" for bathroom and wardrobe partitions. Plaster and finishes are not deducted from room sizes.</li>
+        <li>Stair: dog-leg, two 3½ ft flights, 10" treads, for about 11 ft floor-to-floor. A lockable door goes at the upper landing.</li>
+        <li>Columns, beams and foundations are not shown. A structural engineer places them; expect 9" × 12" or 12" × 12" columns inside the 9" walls, sized for a future third floor.</li>
+        <li>North is taken as the top of the society map.</li>
+      </ol>
+    </section>
+  </div>
+</main>
+
+</body></html>
