@@ -7,7 +7,7 @@ Running record of decisions, constraints and what we learned. Newest decisions w
 - 2 plots combined: 6 marla + 8 marla, about 3,487 sq ft total. Exact boundary lives in `shared/plot.py`.
 - It's a **wedge**, not a rectangle: 83 ft back wall (against neighbours), 47 ft front, R2 side about 41 ft, R1 side about 54 ft, both road sides slanting inward. R2 side is shallow, R1 side is deeper.
 - Neighbours only at the back. Roads on R1, R2 and the front.
-- **Setbacks:** 5 ft front, 5 ft back, none on R1/R2 (because it's 2 small plots). About 2,777 sq ft buildable on the ground floor.
+- **Setbacks:** 5 ft front, 5 ft back, none on R1/R2 (because it's 2 small plots). About 2,750 sq ft buildable on the ground floor.
 - **To confirm with New City in writing:** that the 6/8 marla rules still apply after merging (merged 14 marla plots sometimes get side setbacks), and whether a gate/shutter can sit at the plot line or only at the setback line.
 
 ## The idea: an introverted house (modern haveli)
