@@ -49,6 +49,7 @@ Open any `.html` file in a browser. Pages load three.js from a CDN, so they need
 | 03 | Window modes: cool evening, street side hot, all closed |
 | 04 | Courtyard glass wall: front view and side cut with sun angles |
 | 05 | Modern haveli concept: 6 design ideas, season and time-of-day sun |
+| **06** | **Sun study on the real plot and true north: shadows, courtyard sun through the day, heat on each side** |
 
 ## Reusing the code
 

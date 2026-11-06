@@ -1,0 +1,320 @@
+<title>Courtyard Sun Study</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@600;700&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one working screen — the 3D model on top, sun controls under it, then 2 readouts side by side (stacked on phones). */
+:root{
+  --bg:#ECEDE9; --panel:#F7F7F4; --ink:#22251F; --muted:#686C63; --line:#D5D7D0;
+  --sun:#E0861B; --hot:#CF4A2B; --cool:#3F79AE; --shade:#5E6670;
+  --display:"Schibsted Grotesk",ui-sans-serif,system-ui,sans-serif;
+  --body:"Figtree",ui-sans-serif,system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#181A17; --panel:#21241F; --ink:#E9EAE4; --muted:#A2A69B; --line:#363A33;
+  --sun:#F0A040; --hot:#EA6B4C; --cool:#6FA3D6; --shade:#9AA3AD; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#181A17; --panel:#21241F; --ink:#E9EAE4; --muted:#A2A69B; --line:#363A33;
+  --sun:#F0A040; --hot:#EA6B4C; --cool:#6FA3D6; --shade:#9AA3AD; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--body);margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:16px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
+h1{font:700 clamp(22px,3vw,28px)/1.15 var(--display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--muted);margin:0;font-size:14px}
+.stage{position:relative;border-radius:14px;overflow:hidden;background:linear-gradient(var(--panel),var(--bg));border:1px solid var(--line);height:clamp(340px,58vh,600px)}
+#c{display:block;width:100%;height:100%;touch-action:none}
+.hint{position:absolute;right:12px;bottom:10px;font:12px var(--body);color:var(--muted);pointer-events:none}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.seg{display:flex;flex-wrap:wrap;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px}
+.seg button{font:500 14px var(--body);color:var(--muted);background:none;border:0;border-radius:8px;padding:6px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.seg button:focus-visible,.play:focus-visible,input:focus-visible{outline:2px solid var(--sun);outline-offset:2px}
+.time{display:flex;align-items:center;gap:10px;flex:1 1 320px;min-width:0}
+.play{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;font-size:13px}
+input[type=range]{flex:1;min-width:0;accent-color:var(--sun)}
+.clock{font:500 20px var(--mono);font-variant-numeric:tabular-nums;min-width:4.2ch}
+.sunline{color:var(--muted);font-size:14px;margin:-4px 0 0}
+.sunline b{color:var(--ink);font-weight:600}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.cols{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:10px;min-width:0}
+.card h2{font:600 15px var(--display);margin:0;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.card h2 small{font:400 12px var(--mono);color:var(--muted)}
+.big{font:700 34px/1 var(--display);font-variant-numeric:tabular-nums}
+.big span{font:400 14px var(--body);color:var(--muted);margin-left:6px}
+#day{width:100%;height:110px;display:block}
+.walls{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.walls li{display:grid;grid-template-columns:7.5em 1fr 5.4em;align-items:center;gap:10px;font-size:14px}
+.walls .lbl small{display:block;color:var(--muted);font-size:12px;line-height:1.2}
+.track{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+.fill{height:100%;width:0;border-radius:5px;background:var(--sun);transition:width .2s}
+.val{font:13px var(--mono);font-variant-numeric:tabular-nums;text-align:right;color:var(--muted)}
+.val b{color:var(--ink);font-weight:500}
+.note{color:var(--muted);font-size:13px;margin:0}
+.toggles{display:flex;flex-wrap:wrap;gap:16px;font-size:14px;color:var(--muted)}
+.toggles label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.legend{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.legend i{display:block;width:90px;height:8px;border-radius:4px;background:linear-gradient(90deg,#8FA9C4,#F2D27A,#E0861B,#C8402A)}
+@media (prefers-reduced-motion:reduce){.fill{transition:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Courtyard sun study</h1>
+    <p class="sub">New City, Wah Cantt · 33.8° N · true north from the satellite view</p>
+  </header>
+
+  <div class="stage">
+    <canvas id="c" aria-label="3D model of the courtyard house on the plot, lit by the sun for the chosen day and time"></canvas>
+    <div class="hint">Drag to turn · scroll or pinch to zoom</div>
+  </div>
+
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Day of the year">
+      <button id="d-jun" data-n="172" aria-pressed="true">21 Jun · summer</button>
+      <button id="d-mar" data-n="80" aria-pressed="false">21 Mar · spring</button>
+      <button id="d-nov" data-n="310" aria-pressed="false">6 Nov · today</button>
+      <button id="d-dec" data-n="355" aria-pressed="false">21 Dec · winter</button>
+    </div>
+    <div class="time">
+      <button class="play" id="play" aria-label="Play the day">▶</button>
+      <input id="t" type="range" min="5" max="19.75" step="0.0833" value="13" aria-label="Time of day">
+      <span class="clock" id="clock">13:00</span>
+    </div>
+  </div>
+  <p class="sunline" id="sunline"></p>
+
+  <div class="cols">
+    <section class="card">
+      <h2>Courtyard floor in sun <small id="hrs"></small></h2>
+      <div class="big" id="pct">–</div>
+      <canvas id="day" aria-label="Share of the courtyard floor in sun through the day"></canvas>
+      <p class="note">The curve is the whole day; the dot is the time you picked. A deep courtyard stays shaded most of the summer day, which keeps it cool.</p>
+    </section>
+    <section class="card">
+      <h2>Sun hitting each side now <small>W/m² · day total kWh/m²</small></h2>
+      <ul class="walls" id="walls"></ul>
+      <div class="toggles">
+        <label><input type="checkbox" id="heat" checked> Heat colours</label>
+        <label><input type="checkbox" id="nb" checked> Neighbours behind (assumed 2 storeys)</label>
+        <span class="legend"><span>cool</span><i></i><span>hot</span></span>
+      </div>
+      <p class="note">Direct sun only, clear sky. The roof is the biggest heat source in summer; insulate it before anything else.</p>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+/* ---------- site data (feet). Plot axes from shared/plot.py; orientation from the Google Maps screenshot ---------- */
+const GEO={"plot":[{"o":[[0,0],[83.2,0],[71.3,52.4],[64.4,56.3],[39.8,49.9],[19.1,44.6],[12.6,38.8]],"h":[]}],
+"gf":[{"o":[[15.93,35.07],[21.52,40.06],[41.05,45.06],[63.7,50.95],[68.68,48.14],[78.47,5],[1.62,5],[10.81,33.29],[12.2,31.74]],"h":[[[54,19],[58,19],[58,33],[54,33],[36,33],[36,15],[54,15]]]}],
+"ff":[{"o":[[15.93,35.07],[21.52,40.06],[36,43.77],[36,15],[54,15],[54,19],[58,19],[58,33],[54,33],[54,48.43],[63.7,50.95],[68.68,48.14],[78.47,5],[1.62,5],[10.81,33.29],[12.2,31.74]],"h":[]}],
+"court":[{"o":[[54,15],[54,33],[36,33],[36,15]],"h":[]}],"gallery":[{"o":[[58,19],[58,33],[54,33],[54,19]],"h":[]}]};
+const LAT=33.78, LON=72.73, TZ=5;
+const BX=64, BY=154;               // compass bearing of the plot's x axis (along back wall, R2→R1) and y axis (back→front)
+const CX=45, CY=24;                // courtyard centre, used as the scene origin
+const rad=d=>d*Math.PI/180, deg=r=>r*180/Math.PI;
+function en(px,py){const x=px-CX,y=py-CY;return [x*Math.sin(rad(BX))+y*Math.sin(rad(BY)), x*Math.cos(rad(BX))+y*Math.cos(rad(BY))];} // [east, north]
+function w(px,py,h){const [e,n]=en(px,py);return new THREE.Vector3(e,h||0,-n);}
+
+/* ---------- three.js scene ---------- */
+const canvas=document.getElementById('c');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(38,1,1,2000);
+camera.position.set(95,105,135);
+const controls=new THREE.OrbitControls(camera,canvas);
+controls.target.set(0,6,0); controls.enableDamping=true; controls.maxPolarAngle=Math.PI/2.05; controls.minDistance=40; controls.maxDistance=420;
+
+const hemi=new THREE.HemisphereLight(0xf4f6f8,0x9a917e,0.55); scene.add(hemi);
+const sun=new THREE.DirectionalLight(0xfff1dc,1.1); sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048); Object.assign(sun.shadow.camera,{left:-95,right:95,top:95,bottom:-95,near:1,far:500}); sun.shadow.bias=-0.0006; sun.shadow.normalBias=0.4;
+scene.add(sun,sun.target);
+
+function shapeFrom(poly){
+  const s=new THREE.Shape(poly.o.map(p=>{const [e,n]=en(p[0],p[1]);return new THREE.Vector2(e,n);}));
+  poly.h.forEach(h=>s.holes.push(new THREE.Path(h.map(p=>{const [e,n]=en(p[0],p[1]);return new THREE.Vector2(e,n);}))));
+  return s;
+}
+const solids=[];      // meshes that cast shadows and block rays
+const heatMeshes=[];  // meshes coloured by heat
+function prism(polys,y0,y1,color,opts={}){
+  const g=new THREE.ExtrudeGeometry(polys.map(shapeFrom),{depth:y1-y0,bevelEnabled:false});
+  g.rotateX(-Math.PI/2); g.translate(0,y0,0);
+  const geo=g.index?g.toNonIndexed():g; geo.computeVertexNormals();
+  const base=new THREE.Color(color);
+  const cols=new Float32Array(geo.attributes.position.count*3);
+  for(let i=0;i<cols.length;i+=3){cols[i]=base.r;cols[i+1]=base.g;cols[i+2]=base.b;}
+  geo.setAttribute('color',new THREE.BufferAttribute(cols,3));
+  const m=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({vertexColors:true,transparent:!!opts.op,opacity:opts.op||1}));
+  m.castShadow=!opts.noCast; m.receiveShadow=true; m.userData.base=base; scene.add(m);
+  if(!opts.noBlock) solids.push(m);
+  if(!opts.noHeat) heatMeshes.push(m);
+  const edges=new THREE.LineSegments(new THREE.EdgesGeometry(geo,30),new THREE.LineBasicMaterial({color:0x6a6c64,transparent:true,opacity:.45}));
+  scene.add(edges); m.userData.edges=edges;
+  return m;
+}
+// ground and plot
+const ground=new THREE.Mesh(new THREE.PlaneGeometry(700,700),new THREE.MeshLambertMaterial({color:0xD8D2C2}));
+ground.rotation.x=-Math.PI/2; ground.position.y=-0.05; ground.receiveShadow=true; scene.add(ground);
+prism(GEO.plot,0,0.3,0xE6E1D3,{noCast:true,noBlock:true});
+const courtFloor=prism(GEO.court,0.3,0.45,0xA8C49A,{noCast:true,noBlock:true});
+// building: ground floor, first floor with parapet, gallery roof slab
+prism(GEO.gf,0.3,11,0xF1EFE8);
+prism(GEO.ff,11,24,0xF1EFE8);
+prism(GEO.gallery,10,11,0xCFCBC0);
+// neighbours behind the back wall (their plots, assumed 2 storeys after their own 5 ft setback)
+const nb=prism([{o:[[-6,-50],[90,-50],[90,-5],[-6,-5]],h:[]}],0,22,0xC9C6BD,{op:0.55,noHeat:true});
+
+// ground labels and north arrow
+function groundText(text,px,py,size,a,b){
+  const c=document.createElement('canvas'),g=c.getContext('2d');const font='600 64px Figtree, system-ui, sans-serif';
+  g.font=font;const tw=Math.ceil(g.measureText(text).width)+40;c.width=tw;c.height=96;
+  g.font=font;g.fillStyle='rgba(40,42,36,.72)';g.textAlign='center';g.textBaseline='middle';g.fillText(text,tw/2,50);
+  const m=new THREE.Mesh(new THREE.PlaneGeometry(size*tw/96,size),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthWrite:false}));
+  let ang=0; if(a&&b){const A=en(...a),B=en(...b);ang=Math.atan2(B[1]-A[1],B[0]-A[0]);if(ang>Math.PI/2)ang-=Math.PI;if(ang<-Math.PI/2)ang+=Math.PI;}
+  m.rotation.x=-Math.PI/2; m.rotation.z=ang; m.position.copy(w(px,py,0.5)); scene.add(m);
+}
+const K=GEO.plot[0].o;
+groundText('FRONT ROAD',38,62,4.5,K[5],K[3]);
+groundText('R1 ROAD',89,27,4.5,K[1],K[2]);
+groundText('R2 ROAD',-2,23,4.5,K[6],K[0]);
+groundText('BACK',42,2.4,2.6,K[0],K[1]);
+groundText('COURTYARD',45,24,2.4,K[0],K[1]);
+(function(){ // north arrow on the ground, west of the plot
+  const s=new THREE.Shape([new THREE.Vector2(0,7),new THREE.Vector2(3,-3),new THREE.Vector2(0,-1.2),new THREE.Vector2(-3,-3)]);
+  const m=new THREE.Mesh(new THREE.ShapeGeometry(s),new THREE.MeshBasicMaterial({color:0x2a2c26}));
+  m.rotation.x=-Math.PI/2; m.position.set(-70,0.4,10); scene.add(m);
+  const c=document.createElement('canvas');c.width=128;c.height=128;const g=c.getContext('2d');g.fillStyle='#2a2c26';g.font='700 96px Figtree, system-ui';g.textAlign='center';g.textBaseline='middle';g.fillText('N',64,70);
+  const t=new THREE.Mesh(new THREE.PlaneGeometry(6,6),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c),transparent:true,depthWrite:false}));
+  t.rotation.x=-Math.PI/2; t.position.set(-70,0.4,1); scene.add(t);
+})();
+
+// sun disc and path
+const sunBall=new THREE.Mesh(new THREE.SphereGeometry(3.2,24,16),new THREE.MeshBasicMaterial({color:0xF2A33A})); scene.add(sunBall);
+let pathLine=null;
+
+/* ---------- sun position ---------- */
+function sunPos(n,clock){
+  const dec=rad(23.45*Math.sin(rad(360*(284+n)/365)));
+  const B=rad(360*(n-81)/364), eot=9.87*Math.sin(2*B)-7.53*Math.cos(B)-1.5*Math.sin(B);
+  const st=clock+(4*(LON-15*TZ)+eot)/60, H=rad(15*(st-12)), phi=rad(LAT);
+  const sh=Math.sin(phi)*Math.sin(dec)+Math.cos(phi)*Math.cos(dec)*Math.cos(H), alt=Math.asin(sh);
+  let az=deg(Math.atan2(Math.sin(H),Math.cos(H)*Math.sin(phi)-Math.tan(dec)*Math.cos(phi)))+180; az=(az+360)%360;
+  return {alt,az};
+}
+function dirOf(s){return new THREE.Vector3(Math.sin(rad(s.az))*Math.cos(s.alt),Math.sin(s.alt),-Math.cos(rad(s.az))*Math.cos(s.alt));}
+function dni(alt){ if(alt<=0) return 0; const h=deg(alt); const am=1/(Math.sin(alt)+0.50572*Math.pow(h+6.07995,-1.6364)); return 1361*Math.pow(0.7,Math.pow(am,0.678)); }
+const COMPASS=['north','north-east','east','south-east','south','south-west','west','north-west'];
+const compass=a=>COMPASS[Math.round(a/45)%8];
+
+/* ---------- sides of the house ---------- */
+const C=GEO.plot[0].o; // B, R1, C2, F2, F1, C1, R2
+const centre=(()=>{let e=0,n=0;C.forEach(p=>{const v=en(p[0],p[1]);e+=v[0];n+=v[1];});return [e/C.length,n/C.length];})();
+function outward(a,b){const A=en(...a),Bp=en(...b),dx=Bp[0]-A[0],dy=Bp[1]-A[1],L=Math.hypot(dx,dy);let nx=dy/L,ny=-dx/L;
+  const mx=(A[0]+Bp[0])/2-centre[0],my=(A[1]+Bp[1])/2-centre[1]; if(nx*mx+ny*my<0){nx=-nx;ny=-ny;} return {v:new THREE.Vector3(nx,0,-ny),len:L};}
+function side(pairs){let v=new THREE.Vector3(),L=0;pairs.forEach(([i,j])=>{const o=outward(C[i],C[j]);v.addScaledVector(o.v,o.len);L+=o.len;});return v.normalize();}
+const SIDES=[
+  {k:'roof',name:'Roof',n:new THREE.Vector3(0,1,0)},
+  {k:'front',name:'Front wall',n:side([[2,3],[3,4],[4,5],[5,6]])},
+  {k:'r2',name:'R2 wall',n:side([[6,0]])},
+  {k:'r1',name:'R1 wall',n:side([[1,2]])},
+  {k:'back',name:'Back wall',n:side([[0,1]])},
+];
+SIDES.forEach(s=>{if(s.k!=='roof'){const a=(deg(Math.atan2(s.n.x,-s.n.z))+360)%360;s.faces='faces '+compass(a);}else s.faces='flat';});
+const list=document.getElementById('walls');
+SIDES.forEach(s=>{const li=document.createElement('li');li.innerHTML=`<span class="lbl">${s.name}<small>${s.faces}</small></span><span class="track"><span class="fill" id="f-${s.k}"></span></span><span class="val" id="v-${s.k}"></span>`;list.appendChild(li);});
+
+/* ---------- heat colouring ---------- */
+const STOPS=[[0,[143,169,196]],[0.35,[242,210,122]],[0.7,[224,134,27]],[1,[200,64,42]]].map(([t,c])=>[t,c.map(x=>x/255)]);
+function ramp(t){t=Math.max(0,Math.min(1,t));for(let i=1;i<STOPS.length;i++){if(t<=STOPS[i][0]){const [t0,a]=STOPS[i-1],[t1,b]=STOPS[i],f=(t-t0)/(t1-t0);return a.map((v,k)=>v+(b[k]-v)*f);}}return STOPS[STOPS.length-1][1];}
+let heatOn=true;
+function colourMeshes(d,I){
+  heatMeshes.forEach(m=>{const nrm=m.geometry.attributes.normal,col=m.geometry.attributes.color,b=m.userData.base;
+    for(let i=0;i<col.count;i++){
+      if(!heatOn){col.setXYZ(i,b.r,b.g,b.b);continue;}
+      const c=Math.max(0,nrm.getX(i)*d.x+nrm.getY(i)*d.y+nrm.getZ(i)*d.z)*I/1000;
+      const r=ramp(c); const k=0.25; col.setXYZ(i,b.r*k+r[0]*(1-k),b.g*k+r[1]*(1-k),b.b*k+r[2]*(1-k));
+    }
+    col.needsUpdate=true;});
+}
+
+/* ---------- courtyard sun fraction (ray test from a grid on the floor) ---------- */
+const ray=new THREE.Raycaster(); const PTS=[];
+for(let i=0;i<10;i++)for(let j=0;j<10;j++)PTS.push(w(36.9+i*1.8,15.9+j*1.8,0.6));
+function courtSun(d,alt){ if(alt<=rad(0.5)) return 0; const blockers=solids.filter(m=>m.visible); let lit=0;
+  PTS.forEach(p=>{ray.set(p,d);ray.far=400;if(ray.intersectObjects(blockers,false).length===0)lit++;}); return lit/PTS.length;}
+
+/* ---------- state + render ---------- */
+let N=172, T=13, playing=false;
+const tIn=document.getElementById('t');
+function fmt(h){const m=Math.round(h*60);return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');}
+let dayCurve=[], dayTotals={}, sunHours=0;
+function computeDay(){
+  dayCurve=[];dayTotals={};SIDES.forEach(s=>dayTotals[s.k]=0);sunHours=0;
+  const pts=[];
+  for(let h=4.5;h<=20.5;h+=0.25){const s=sunPos(N,h),d=dirOf(s),I=dni(s.alt);
+    if(s.alt>0){pts.push(d.clone().multiplyScalar(150));
+      SIDES.forEach(x=>dayTotals[x.k]+=Math.max(0,x.n.dot(d))*I*0.25/1000);}
+    const f=courtSun(d,s.alt); dayCurve.push([h,f]); sunHours+=f*0.25;}
+  if(pathLine){scene.remove(pathLine);}
+  pathLine=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineDashedMaterial({color:0xE0861B,dashSize:3,gapSize:3,transparent:true,opacity:.7}));
+  pathLine.computeLineDistances(); scene.add(pathLine);
+  document.getElementById('hrs').textContent=`about ${sunHours.toFixed(1)} sun-hours on the floor today`;
+}
+function update(){
+  const s=sunPos(N,T), d=dirOf(s), I=dni(s.alt), up=s.alt>0;
+  sun.position.copy(d.clone().multiplyScalar(220)); sun.target.position.set(0,0,0);
+  sun.intensity=up?0.35+0.85*Math.min(1,Math.sin(s.alt)*1.6):0; hemi.intensity=up?0.55:0.3;
+  sunBall.visible=up; sunBall.position.copy(d.clone().multiplyScalar(150));
+  colourMeshes(d,up?I:0);
+  document.getElementById('clock').textContent=fmt(T);
+  document.getElementById('sunline').innerHTML=up
+    ? `Sun <b>${deg(s.alt).toFixed(0)}° above the horizon</b>, in the <b>${compass(s.az)}</b> (${s.az.toFixed(0)}°)`
+    : `The sun is below the horizon.`;
+  const f=courtSun(d,s.alt); document.getElementById('pct').innerHTML=`${Math.round(f*100)}%<span>of the floor in direct sun</span>`;
+  let maxv=0; const now={}; SIDES.forEach(x=>{now[x.k]=up?Math.max(0,x.n.dot(d))*I:0;});
+  SIDES.forEach(x=>{document.getElementById('f-'+x.k).style.width=(now[x.k]/1000*100).toFixed(1)+'%';
+    document.getElementById('v-'+x.k).innerHTML=`<b>${Math.round(now[x.k])}</b> · ${dayTotals[x.k].toFixed(1)}`;});
+  drawDay(f);
+}
+function drawDay(fNow){
+  const cv=document.getElementById('day'),r=cv.getBoundingClientRect(),dpr=Math.min(devicePixelRatio,2);
+  cv.width=r.width*dpr;cv.height=r.height*dpr;const g=cv.getContext('2d');g.scale(dpr,dpr);
+  const W=r.width,H=r.height,L=4,R=W-4,Tp=8,Bt=H-20,x=h=>L+(h-4.5)/16*(R-L),y=v=>Bt-v*(Bt-Tp);
+  const css=getComputedStyle(document.documentElement),line=css.getPropertyValue('--line').trim(),muted=css.getPropertyValue('--muted').trim(),sunc=css.getPropertyValue('--sun').trim(),ink=css.getPropertyValue('--ink').trim();
+  g.strokeStyle=line;g.lineWidth=1;[0,0.5,1].forEach(v=>{g.beginPath();g.moveTo(L,y(v));g.lineTo(R,y(v));g.stroke();});
+  g.beginPath();g.moveTo(x(dayCurve[0][0]),y(0));dayCurve.forEach(([h,v])=>g.lineTo(x(h),y(v)));g.lineTo(x(dayCurve[dayCurve.length-1][0]),y(0));g.closePath();
+  g.fillStyle=sunc;g.globalAlpha=.22;g.fill();g.globalAlpha=1;
+  g.beginPath();dayCurve.forEach(([h,v],i)=>i?g.lineTo(x(h),y(v)):g.moveTo(x(h),y(v)));g.strokeStyle=sunc;g.lineWidth=2;g.stroke();
+  g.fillStyle=muted;g.font='11px "IBM Plex Mono", monospace';g.textAlign='center';[6,9,12,15,18].forEach(h=>g.fillText(String(h).padStart(2,'0')+':00',x(h),H-5));
+  g.beginPath();g.arc(x(T),y(fNow),4.5,0,7);g.fillStyle=ink;g.fill();
+}
+
+/* ---------- controls ---------- */
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  N=+b.dataset.n; computeDay(); update();});
+tIn.oninput=()=>{T=+tIn.value;update();};
+document.getElementById('heat').onchange=e=>{heatOn=e.target.checked;update();};
+document.getElementById('nb').onchange=e=>{nb.visible=e.target.checked;nb.userData.edges.visible=e.target.checked;computeDay();update();};
+const playBtn=document.getElementById('play'); let last=0;
+playBtn.onclick=()=>{playing=!playing;playBtn.textContent=playing?'❚❚':'▶';playBtn.setAttribute('aria-label',playing?'Pause':'Play the day');};
+
+function resize(){const r=canvas.parentElement.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();if(dayCurve.length)drawDay(courtSun(dirOf(sunPos(N,T)),sunPos(N,T).alt));}
+new ResizeObserver(resize).observe(canvas.parentElement);
+function tick(ts){
+  if(playing&&ts-last>60){last=ts;T+=0.0833;if(T>19.75)T=5;tIn.value=T;update();}
+  controls.update();renderer.render(scene,camera);requestAnimationFrame(tick);
+}
+resize(); computeDay(); update(); requestAnimationFrame(tick);
+})();
+</script>
