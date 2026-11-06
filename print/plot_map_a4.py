@@ -3,7 +3,7 @@
 Back wall runs down the left side of the page, front road on the right."""
 import sys, math
 sys.path.insert(0, "shared")
-from plot import CORNERS, PLOT, BUILD
+from plot import CORNERS, PLOT
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -20,7 +20,6 @@ ink, mid = "#2C2C2A", "#5F5E5A"
 pts = [P(*c) for c in CORNERS.values()]
 ax.fill(*zip(*pts), color="#F1EFE8", zorder=1)
 ax.plot(*zip(*(pts + pts[:1])), color=ink, lw=1.6, zorder=3)
-ax.plot(*zip(*[P(x, y) for x, y in BUILD.exterior.coords]), color=mid, lw=0.8, ls=(0, (4, 3)), zorder=2)
 
 names = list(CORNERS); cx, cy = PLOT.centroid.x, PLOT.centroid.y
 for i, a in enumerate(names):
@@ -38,14 +37,11 @@ lab(84, 24, "R1 road", 11, rot=13)
 lab(40, 54.5, "FRONT road", 10, rot=78)
 lab(46, 24, f"Plot area  {PLOT.area:,.0f} sq ft", 13, col=ink, w="bold")
 lab(51, 24, "6 marla + 8 marla, combined", 9.5)
-lab(55, 24, f"Buildable ground floor ≈ {BUILD.area:,.0f} sq ft", 9.5)
 
 ax.text(30, 284, "Plot map — New City, Wah Cantt", fontsize=15, color=ink, weight="bold", va="center")
-ax.text(30, 277, "Scale 1:100  ·  1 cm on paper = 1 m  ·  print at 100% (actual size)", fontsize=9, color=mid, va="center")
+ax.text(30, 277, "Scale 1:100  ·  about 3 mm on paper = 1 ft  ·  print at 100% (actual size)", fontsize=9, color=mid, va="center")
 
 y0 = 256; LX = 140
-ax.plot([LX, LX+10], [y0 + 6, y0 + 6], color=ink, lw=1.6); ax.text(LX+12, y0 + 6, "Plot boundary", fontsize=8.5, color=mid, va="center")
-ax.plot([LX, LX+10], [y0, y0], color=mid, lw=0.8, ls=(0, (4, 3))); ax.text(LX+12, y0, "5 ft setback, front and back", fontsize=8.5, color=mid, va="center")
 sx = LX; y0 = 238
 for i in range(4):
     ax.fill_between([sx + i * 5 * S, sx + (i + 1) * 5 * S], y0 + 1.8, y0 + 4.2,
