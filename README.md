@@ -9,6 +9,7 @@ Open any `.html` file in a browser. Pages load three.js from a CDN, so they need
 - **Current plan:** [`layouts/13-ground-floor-centre-courtyard.html`](layouts/13-ground-floor-centre-courtyard.html) and [`layouts/14-first-floor-centre-courtyard.html`](layouts/14-first-floor-centre-courtyard.html)
 - **Decisions and what we've learned:** [`notes/design-notes.md`](notes/design-notes.md)
 - **True plot shape (use for every new drawing):** [`shared/plot.py`](shared/plot.py)
+- **Printable plot map (A4):** [`print/plot-map-A4.pdf`](print/plot-map-A4.pdf), redrawn with `python3 print/plot_map_a4.py`
 
 ## Folders
 
@@ -17,6 +18,7 @@ Open any `.html` file in a browser. Pages load three.js from a CDN, so they need
 | `layouts/` | Floor plans, oldest to newest. 08 onward are to scale on the real plot. |
 | `models/` | 3D models and airflow/window simulations. |
 | `notes/` | Decisions, constraints, physics, costs. |
+| `print/` | Printable A4 plot map (PDF and PNG) and the script that draws it. |
 | `shared/` | Plot geometry (`plot.py`) and the shared stylesheet (`base.css`). |
 
 ## Layouts
