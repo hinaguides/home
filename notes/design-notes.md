@@ -10,6 +10,17 @@ Running record of decisions, constraints and what we learned. Newest decisions w
 - **Setbacks:** 5 ft front, 5 ft back, none on R1/R2 (because it's 2 small plots). About 2,750 sq ft buildable on the ground floor.
 - **To confirm with New City in writing:** that the 6/8 marla rules still apply after merging (merged 14 marla plots sometimes get side setbacks), and whether a gate/shutter can sit at the plot line or only at the setback line.
 
+## Orientation (from Google Maps satellite view, 6 Nov 2026)
+
+Screenshot: `site/google-maps-satellite.png` (north is up). The plot is the wedge between the 2 roads that meet at the front.
+
+- **Back wall** faces roughly north-north-west (neighbours)
+- **R1 road** side faces roughly east
+- **Front** faces roughly south
+- **R2 road** side faces roughly south-west
+
+Read from a hand-drawn outline, so treat it as ±10°. Earlier drawings and models assumed R1 faced north-east and the front south-east; the real plot is turned about 25° clockwise from that. Confirm with a phone compass on site.
+
 ## The idea: an introverted house (modern haveli)
 
 - Closed to the roads: blank walls, high roshandans only, front fully blocked.

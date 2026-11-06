@@ -1,7 +1,7 @@
 """A4 portrait print of the plot map, filling the page. Run from repo root:
     python3 print/plot_map_a4.py
 Same orientation as the society map: back wall on the left, front road on the right,
-R1 road at the top, R2 road at the bottom. Compass from the map: R1 faces north-east."""
+R1 road at the top, R2 road at the bottom. Compass read from Google Maps satellite view."""
 import sys, math
 sys.path.insert(0, "shared")
 from plot import CORNERS, PLOT
@@ -62,9 +62,12 @@ ax.text(200, 46, "Plot map", fontsize=17, color=ink, weight="bold", ha="right")
 ax.text(200, 38, "New City, Wah Cantt", fontsize=11, color=mid, ha="right")
 ax.text(200, 31, f"Total {PLOT.area:,.0f} sq ft  ·  14 marla", fontsize=10, color=mid, ha="right")
 
-# compass: R1 faces north-east (up on this page), front faces south-east (right)
+# compass, from the Google Maps satellite view (site/google-maps-satellite.png, north-up):
+# back faces about NNW, R1 road about east, front about south, R2 road about south-west.
+# North therefore points to the left of this page, turned about 26 degrees upward.
+NORTH = 154   # page angle in degrees (0 = right, 90 = up)
 CXc, CYc, R = 183, 80, 10
-for ang, txt, strong in ((135, "N", True), (45, "E", False), (315, "S", False), (225, "W", False)):
+for ang, txt, strong in ((NORTH, "N", True), (NORTH - 90, "E", False), (NORTH - 180, "S", False), (NORTH + 90, "W", False)):
     a = math.radians(ang); ex, ey = CXc + R * math.cos(a), CYc + R * math.sin(a)
     ax.annotate("", xy=(ex, ey), xytext=(CXc, CYc),
                 arrowprops=dict(arrowstyle="-|>" if strong else "-", color=ink if strong else mid,
