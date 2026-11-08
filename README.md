@@ -7,6 +7,7 @@ Open any `.html` file in a browser. Pages load three.js from a CDN, so they need
 ## Start here
 
 - **Fixed design rules (read first):** [`notes/design-rules.md`](notes/design-rules.md). Rule 1: noise stays at the front.
+- **What each 3D concept tried and why:** [`notes/concepts.md`](notes/concepts.md)
 - **Latest 3D concept:** [`models/08-concept-2-noise-zoned-3d.html`](models/08-concept-2-noise-zoned-3d.html)
 - **Current plan:** [`layouts/13-ground-floor-centre-courtyard.html`](layouts/13-ground-floor-centre-courtyard.html) and [`layouts/14-first-floor-centre-courtyard.html`](layouts/14-first-floor-centre-courtyard.html)
 - **Decisions and what we've learned:** [`notes/design-notes.md`](notes/design-notes.md)
