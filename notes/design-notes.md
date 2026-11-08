@@ -2,6 +2,16 @@
 
 Running record of decisions, constraints and what we learned. Newest decisions win; superseded ideas are kept so the reasoning isn't lost.
 
+## Update 9 Nov 2026 — fixed rules
+
+Ehsan set fixed rules, now in [`design-rules.md`](design-rules.md):
+1. **Noise stays at the front.** Living room never in the centre; loud band at the front, buffer in the middle, quiet rooms at the back.
+2. **No openings or garage on R1 or R2** (society rule). One main gate, at F1 on the front.
+3. Courtyard fully enclosed with a long wall.
+4. Terrace only at the back, glass rooms around it; no R2-side terrace.
+
+Superseded by these: the front service gate plus R1 staff passage, the R1-side car and stair door (8 Nov), the R2-side first-floor terrace, and the prayer room idea. Latest model: `models/08-concept-2-noise-zoned-3d.html`.
+
 ## The plot
 
 - 2 plots combined: 6 marla + 8 marla, about 3,487 sq ft total. Exact boundary lives in `shared/plot.py`.

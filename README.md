@@ -6,6 +6,8 @@ Open any `.html` file in a browser. Pages load three.js from a CDN, so they need
 
 ## Start here
 
+- **Fixed design rules (read first):** [`notes/design-rules.md`](notes/design-rules.md). Rule 1: noise stays at the front.
+- **Latest 3D concept:** [`models/08-concept-2-noise-zoned-3d.html`](models/08-concept-2-noise-zoned-3d.html)
 - **Current plan:** [`layouts/13-ground-floor-centre-courtyard.html`](layouts/13-ground-floor-centre-courtyard.html) and [`layouts/14-first-floor-centre-courtyard.html`](layouts/14-first-floor-centre-courtyard.html)
 - **Decisions and what we've learned:** [`notes/design-notes.md`](notes/design-notes.md)
 - **True plot shape (use for every new drawing):** [`shared/plot.py`](shared/plot.py)
@@ -17,7 +19,7 @@ Open any `.html` file in a browser. Pages load three.js from a CDN, so they need
 |---|---|
 | `layouts/` | Floor plans, oldest to newest. 08 onward are to scale on the real plot. |
 | `models/` | 3D models and airflow/window simulations. |
-| `notes/` | Decisions, constraints, physics, costs. |
+| `notes/` | Fixed rules (`design-rules.md`), decisions, constraints, physics, costs. |
 | `print/` | Printable A4 plot map (PDF and PNG) and the script that draws it. |
 | `shared/` | Plot geometry (`plot.py`) and the shared stylesheet (`base.css`). |
 
@@ -49,7 +51,9 @@ Open any `.html` file in a browser. Pages load three.js from a CDN, so they need
 | 03 | Window modes: cool evening, street side hot, all closed |
 | 04 | Courtyard glass wall: front view and side cut with sun angles |
 | 05 | Modern haveli concept: 6 design ideas, season and time-of-day sun |
-| **06** | **Sun study on the real plot and true north: shadows, courtyard sun through the day, heat on each side** |
+| 06 | Sun study on the real plot and true north: shadows, courtyard sun through the day, heat on each side |
+| 07 | Concept 1 (8 Nov): split levels, spiral stair tower, rooms let off different landings. Breaks rules 1 and 2. |
+| **08** | **Concept 2 (9 Nov): noise zoned front to back, one gate at F1, solid R1/R2, back terrace. Noise zones and let-rooms views.** |
 
 ## Reusing the code
 
